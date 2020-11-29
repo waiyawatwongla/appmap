@@ -1,3 +1,4 @@
+import '../Navigationbar.dart';
 import 'file:///D:/Flutter/appmap/lib/Map/Homeviewgoolemap.dart';
 import 'package:appmap/Splash_Screen/CustomShapeClipper.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
     if (user != null) {
       print("Already singed-in with");
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => MapsPage(user)));
+          context, MaterialPageRoute(builder: (context) => Navigationbar(user)));
       // context, MaterialPageRoute(builder: (context) => MapSample(user)));
     }
   }

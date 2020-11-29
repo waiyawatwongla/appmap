@@ -1,5 +1,7 @@
+import 'package:appmap/Login/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'caseshow.dart';
 
@@ -16,11 +18,24 @@ class _casenewsState extends State<casenews> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.orange,
-          title: Text("ข่าวใหม่"),
+          backgroundColor: Colors.orangeAccent[200],
+          title: Text(
+            "ข่าวใหม่",
+            style: TextStyle(color: Colors.white),
+          ),
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.home),
+                color: Colors.white,
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LoginPage()));
+                })
+          ],
         ),
         body: StreamBuilder(
           stream: Firestore.instance.collection("CaseNotify").snapshots(),
@@ -56,6 +71,8 @@ class _casenewsState extends State<casenews> {
                                       .data.documents[index].data["urlimage"],
                                   caselevel: snapshot
                                       .data.documents[index].data["level"],
+                                  casemap: snapshot.data.documents[index]
+                                      .data["position"]["geopoint"],
                                 ),
                               ),
                             );

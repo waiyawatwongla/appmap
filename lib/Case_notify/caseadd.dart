@@ -452,7 +452,7 @@ class _casaddState extends State<casadd> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('เพิ่มเคสความรุนแรง'),
+          title: Text('เพิ่มเคสความรุนแรง',style: TextStyle(color: Colors.white),),
         ),
         body: Container(
             padding: EdgeInsets.all(20),
