@@ -1,38 +1,26 @@
-import 'package:appmap/Case_attentive/case_attentiveshowdetail.dart';
-import 'package:appmap/Login/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class caseattentive extends StatefulWidget {
+class casemanagerattentive extends StatefulWidget {
   @override
-  _caseattentiveState createState() => _caseattentiveState();
+  _casemanagerattentiveState createState() => _casemanagerattentiveState();
 }
 
-class _caseattentiveState extends State<caseattentive> {
+class _casemanagerattentiveState extends State<casemanagerattentive> {
+
+  final db = Firestore.instance;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(backgroundColor: Colors.orange[200],
-        appBar: AppBar(
-          title: Text(
-            "เคสที่สนใจ",
-            style: TextStyle(color: Colors.white),
-          ),
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.home),
-                color: Colors.white,
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LoginPage()));
-                })
-          ],
-        ),
+      child: Scaffold(
+        backgroundColor: Colors.orangeAccent[100],
+        appBar: AppBar(title: Text("จัดการเคสที่สนใจ")),
         body: ListView(
           padding: EdgeInsets.all(0),
           children: <Widget>[
             StreamBuilder<QuerySnapshot>(
-                stream: Firestore.instance.collection('Caseinterested').snapshots(),
+                stream: db.collection('Caseinterested').snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return Column(
@@ -119,73 +107,72 @@ class _caseattentiveState extends State<caseattentive> {
                           }
                         }
 
-                        return InkWell(onTap: (){
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => caseattentiveshow(
-                                casename:
-                                doc.data["name"],
-                                casedetail:
-                                doc.data["detail"],
-                                caseimage: doc.data["urlimage"],
-                                caselevel:
-                                doc.data["level"],
-                                casemap: doc.data["position"],
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 5.0, vertical: 0.0),
+                          child: Card(
+                            color: Colors.white,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey),
+                                borderRadius: BorderRadius.circular(5.0),
                               ),
-                            ),
-                          );
-                        },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 5.0, vertical: 0.0),
-                            child: Card(
-                              color: Colors.white,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.grey),
-                                  borderRadius: BorderRadius.circular(5.0),
-                                ),
-                                child: Row(
-                                  children: <Widget>[
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(5),
-                                      child: doc.data['urlimage'] == null
-                                          ? Image.asset(
-                                        'images/camera.png',
-                                        height: 70.0,
-                                        width: 70.0,
-                                        fit: BoxFit.cover,
-                                      )
-                                          : Image.network(
-                                        '${doc.data['urlimage']}',
-                                        height: 70.0,
-                                        width: 70.0,
-                                        fit: BoxFit.cover,
-                                      ),
+                              child: Row(
+                                children: <Widget>[
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(5),
+                                    child: doc.data['urlimage'] == null
+                                        ? Image.asset(
+                                      'images/photo.png',
+                                      height: 70.0,
+                                      width: 70.0,
+                                      fit: BoxFit.cover,
+                                    )
+                                        : Image.network(
+                                      '${doc.data['urlimage']}',
+                                      height: 70.0,
+                                      width: 70.0,
+                                      fit: BoxFit.cover,
                                     ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Container(
-                                      width: 180,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            '${doc.data['name']}',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 15.0,
-                                            ),
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Container(
+                                    width: 180,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          '${doc.data['name']}',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 15.0,
                                           ),
-                                          testdata(),
-                                        ],
-                                      ),
+                                        ),
+                                        testdata(),
+                                      ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                  Row(
+                                    children: <Widget>[
+                                      IconButton(
+                                        icon: Icon(Icons.build,color: Colors.green,),
+                                        onPressed: () {},
+                                      ),
+                                      IconButton(
+                                        icon: Icon(Icons.delete,color: Colors.red,),
+                                        onPressed: () async {
+                                          await db
+                                              .collection('Caseinterested')
+                                              .document(doc.documentID)
+                                              .delete();
+                                        },
+                                      )
+                                    ],
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -200,5 +187,6 @@ class _caseattentiveState extends State<caseattentive> {
         ),
       ),
     );
+
   }
 }

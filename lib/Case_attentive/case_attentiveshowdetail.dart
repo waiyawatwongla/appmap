@@ -1,31 +1,31 @@
-import 'file:///D:/Flutter/appmap/lib/test/gettest.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class Mapshowdatail extends StatefulWidget {
-  // final String namecase;
-  final String casename,caselevel,casedetail,caseimage;
+class caseattentiveshow extends StatefulWidget {
+  final String casename;
+  final String casedetail;
+  final String caseimage;
+  final String caselevel;
   final GeoPoint casemap;
 
-
-  Mapshowdatail({
+  caseattentiveshow({
     Key key,
-
     @required this.casename,
-    @required this.caselevel,
     @required this.casedetail,
     @required this.caseimage,
+    @required this.caselevel,
     @required this.casemap,
-
   }) : super(key: key);
 
   @override
-  _Mapshowdatail createState() => _Mapshowdatail();
+  _caseattentiveshow createState() => _caseattentiveshow();
 }
 
-class _Mapshowdatail extends State<Mapshowdatail> {
-
+class _caseattentiveshow extends State<caseattentiveshow> {
+  String casedetail = "Please wait...detail";
+  String caseimage = "Please wait.....";
+  String caselevel = "Please wait.....";
 
   Set<Marker> mymarkers() {
     return <Marker>[localmarker()].toSet();
@@ -34,7 +34,13 @@ class _Mapshowdatail extends State<Mapshowdatail> {
   @override
   void initState() {
     super.initState();
-    Firestore.instance.collection("Caseinterested").document().get().then((value) {});
+    Firestore.instance
+        .collection("Caseinterested")
+        .document()
+        .get()
+        .then((value) {
+      setState(() {});
+    });
   }
 
   @override
@@ -82,7 +88,7 @@ class _Mapshowdatail extends State<Mapshowdatail> {
                     ),
                     IconButton(
                       icon: Icon(
-                        Icons.time_to_leave,
+                        Icons.map,
                       ),
                       onPressed: () {},
                     ),
@@ -114,7 +120,7 @@ class _Mapshowdatail extends State<Mapshowdatail> {
                 SizedBox(height: 20),
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: textlevel()
+                  child: textlevel(),
                 ),
                 SizedBox(height: 40),
                 Container(
@@ -133,7 +139,7 @@ class _Mapshowdatail extends State<Mapshowdatail> {
                 Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                  '${widget.casedetail}',
+                    widget.casedetail,
                     style: TextStyle(
                       fontWeight: FontWeight.normal,
                       fontSize: 15.0,
@@ -148,7 +154,8 @@ class _Mapshowdatail extends State<Mapshowdatail> {
                   child: Card(
                     child: GoogleMap(
                       initialCameraPosition: CameraPosition(
-                        target: LatLng(widget.casemap.latitude, widget.casemap.longitude),
+                        target: LatLng(
+                            widget.casemap.latitude, widget.casemap.longitude),
                         zoom: 15.0,
                       ),
                       markers: mymarkers(),
@@ -175,40 +182,83 @@ class _Mapshowdatail extends State<Mapshowdatail> {
 
   Widget textlevel() {
     if (widget.caselevel == 'ระดับความรุนแรง ปลอดภัย') {
-      return Text('${widget.caselevel}',
-        style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold,
-          fontSize: 17,), maxLines: 1,
-        textAlign: TextAlign.left,);
+      return Row(
+        children: <Widget>[
+          Text(
+            '${widget.caselevel}',
+            style: TextStyle(
+              color: Colors.green,
+              fontWeight: FontWeight.bold,
+              fontSize: 17,
+            ),
+            maxLines: 1,
+            textAlign: TextAlign.left,
+          ),
+          Icon(
+            (Icons.mood),
+            color: Colors.green,
+          )
+        ],
+      );
     } else if (widget.caselevel == 'ระดับความรุนแรง น้อย') {
-      return Text(
-        '${widget.caselevel}',
-        style: TextStyle(color: Colors.yellow, fontWeight: FontWeight.bold,
-          fontSize: 17,), maxLines: 1,
-        textAlign: TextAlign.left,);
+      return Row(
+        children: <Widget>[
+          Text(
+            '${widget.caselevel}',
+            style: TextStyle(
+              color: Colors.yellow,
+              fontWeight: FontWeight.bold,
+              fontSize: 17,
+            ),
+            maxLines: 1,
+            textAlign: TextAlign.left,
+          ),
+          Icon(
+            (Icons.sentiment_neutral),
+            color: Colors.yellow,
+          )
+        ],
+      );
     } else if (widget.caselevel == 'ระดับความรุนแรง มาก') {
-      return Text(
-        '${widget.caselevel}',
-        style: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold,
-          fontSize: 17,), maxLines: 1,
-        textAlign: TextAlign.left,);
+      return Row(
+        children: <Widget>[
+          Text(
+            '${widget.caselevel}',
+            style: TextStyle(
+              color: Colors.orange,
+              fontWeight: FontWeight.bold,
+              fontSize: 17,
+            ),
+            maxLines: 1,
+            textAlign: TextAlign.left,
+          ),
+          Icon(
+            (Icons.sentiment_dissatisfied),
+            color: Colors.orange,
+          )
+        ],
+      );
     } else if (widget.caselevel == 'ระดับความรุนแรง มากที่สุด') {
-      return Text('${widget.caselevel}',
-        style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold,
-          fontSize: 17,), maxLines: 1,
-        textAlign: TextAlign.left,);
+      return Row(
+        children: <Widget>[
+          Text(
+            '${widget.caselevel}',
+            style: TextStyle(
+              color: Colors.red,
+              fontWeight: FontWeight.bold,
+              fontSize: 17,
+            ),
+            maxLines: 1,
+            textAlign: TextAlign.left,
+          ),
+          Icon(
+            (Icons.mood_bad),
+            color: Colors.red,
+          )
+        ],
+      );
     }
   }
-
-  Marker localmarker() {
-    return Marker(
-      infoWindow:
-      InfoWindow(title: widget.casename, snippet: "${widget.caselevel}"),
-      markerId: MarkerId('mylocal'),
-      position: LatLng(widget.casemap.latitude, widget.casemap.longitude),
-
-    );
-  }
-
 
   buildSlider() {
     return Container(
@@ -217,14 +267,22 @@ class _Mapshowdatail extends State<Mapshowdatail> {
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         primary: false,
-        itemCount:1,
+        itemCount: 1,
         itemBuilder: (BuildContext context, int index) {
           return Padding(
             padding: EdgeInsets.only(right: 10.0),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10.0),
-              child: Image.network('${widget.caseimage}',
-                height: 250.0,
+              child: widget.caseimage == null
+                  ? Image.asset(
+                'images/photo.png',
+                height: 250,
+                width: MediaQuery.of(context).size.width - 40.0,
+                fit: BoxFit.cover,
+              )
+                  : Image.network(
+                widget.caseimage,
+                height: 250,
                 width: MediaQuery.of(context).size.width - 40.0,
                 fit: BoxFit.cover,
               ),
@@ -235,4 +293,12 @@ class _Mapshowdatail extends State<Mapshowdatail> {
     );
   }
 
+  Marker localmarker() {
+    return Marker(
+      infoWindow:
+          InfoWindow(title: widget.casename, snippet: "${widget.caselevel}"),
+      markerId: MarkerId('mylocal'),
+      position: LatLng(widget.casemap.latitude, widget.casemap.longitude),
+    );
+  }
 }

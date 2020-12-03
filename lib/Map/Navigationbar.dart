@@ -1,11 +1,13 @@
+import 'package:appmap/Case_manager/casemanager.dart';
+import 'package:appmap/Profile/testupdate.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'Case_attentive/caseattentive.dart';
-import 'Case_news/casenews.dart';
-import 'Case_notify/caseadd.dart';
-import 'Login/login.dart';
-import 'Map/Homeviewgoolemap.dart';
+import '../Case_attentive/caseattentive.dart';
+import '../Case_news/casenews.dart';
+import '../Case_notify/caseadd.dart';
+import '../Login/login.dart';
+import 'Homeviewgoolemap.dart';
 
 class Navigationbar extends StatefulWidget {
   final FirebaseUser user;
@@ -125,7 +127,10 @@ class _NavigationbarState extends State<Navigationbar> {
               color: Colors.orangeAccent,
             ),
             title: Text("จัดการเคส"),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => casemanager()));
+            },
           ),
           ListTile(
             leading: Icon(
@@ -134,8 +139,8 @@ class _NavigationbarState extends State<Navigationbar> {
             ),
             title: Text("เคสที่สนใจ"),
             onTap: () {
-              // Navigator.push(
-              //     context, MaterialPageRoute(builder: (context) => test()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => caseattentive()));
             },
           ),
           ListTile(
@@ -166,7 +171,10 @@ class _NavigationbarState extends State<Navigationbar> {
                 color: Colors.orangeAccent,
               ),
               title: Text("โปรไฟล์"),
-              onTap: () {}),
+              onTap: () {
+                // Navigator.push(
+                //     context, MaterialPageRoute(builder: (context) => MyHomePage()));
+              }),
           ListTile(
             leading: Icon(
               Icons.exit_to_app,

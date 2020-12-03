@@ -1,3 +1,5 @@
+import 'package:appmap/Case_attentive/caseattentive.dart';
+import 'package:appmap/Map/Homeviewgoolemap.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -39,12 +41,16 @@ class _ItemPageState extends State<ItemPage> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(backgroundColor: Colors.white,
-        appBar: AppBar(title: Text(widget.casename,style: TextStyle(fontSize: 18),),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          title: Text(
+            widget.casename,
+            style: TextStyle(fontSize: 18),
+          ),
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back,
@@ -54,7 +60,7 @@ class _ItemPageState extends State<ItemPage> {
           actions: <Widget>[
             IconButton(
               icon: Icon(
-                 Icons.cloud_upload,
+                Icons.cloud_upload,
               ),
               onPressed: () {
                 adddata();
@@ -122,15 +128,7 @@ class _ItemPageState extends State<ItemPage> {
                 SizedBox(height: 20),
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: Text(
-                    widget.caselevel,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 17,color: Colors.red
-                    ),
-                    maxLines: 1,
-                    textAlign: TextAlign.left,
-                  ),
+                  child: textlevel(),
                 ),
                 SizedBox(height: 40),
                 Container(
@@ -167,15 +165,20 @@ class _ItemPageState extends State<ItemPage> {
                         target: LatLng(
                             widget.casemap.latitude, widget.casemap.longitude),
                         zoom: 15.0,
-                      ), markers: mymarkers(),
+                      ),
+                      markers: mymarkers(),
                     ),
                   ),
-                ),SizedBox(height: 30,)
+                ),
+                SizedBox(
+                  height: 30,
+                )
               ],
             ),
           ],
         ),
-        floatingActionButton: FloatingActionButton(backgroundColor: Colors.green,
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.green,
           child: Icon(
             Icons.call,
           ),
@@ -185,6 +188,86 @@ class _ItemPageState extends State<ItemPage> {
     );
   }
 
+  Widget textlevel() {
+    if (widget.caselevel == 'ระดับความรุนแรง ปลอดภัย') {
+      return Row(
+        children: <Widget>[
+          Text(
+            '${widget.caselevel}',
+            style: TextStyle(
+              color: Colors.green,
+              fontWeight: FontWeight.bold,
+              fontSize: 17,
+            ),
+            maxLines: 1,
+            textAlign: TextAlign.left,
+          ),
+          Icon(
+            (Icons.mood),
+            color: Colors.green,
+          )
+        ],
+      );
+    } else if (widget.caselevel == 'ระดับความรุนแรง น้อย') {
+      return Row(
+        children: <Widget>[
+          Text(
+            '${widget.caselevel}',
+            style: TextStyle(
+              color: Colors.yellow,
+              fontWeight: FontWeight.bold,
+              fontSize: 17,
+            ),
+            maxLines: 1,
+            textAlign: TextAlign.left,
+          ),
+          Icon(
+            (Icons.sentiment_neutral),
+            color: Colors.yellow,
+          )
+        ],
+      );
+    } else if (widget.caselevel == 'ระดับความรุนแรง มาก') {
+      return Row(
+        children: <Widget>[
+          Text(
+            '${widget.caselevel}',
+            style: TextStyle(
+              color: Colors.orange,
+              fontWeight: FontWeight.bold,
+              fontSize: 17,
+            ),
+            maxLines: 1,
+            textAlign: TextAlign.left,
+          ),
+          Icon(
+            (Icons.sentiment_dissatisfied),
+            color: Colors.orange,
+          )
+        ],
+      );
+    } else if (widget.caselevel == 'ระดับความรุนแรง มากที่สุด') {
+      return Row(
+        children: <Widget>[
+          Text(
+            '${widget.caselevel}',
+            style: TextStyle(
+              color: Colors.red,
+              fontWeight: FontWeight.bold,
+              fontSize: 17,
+            ),
+            maxLines: 1,
+            textAlign: TextAlign.left,
+          ),
+          Icon(
+            (Icons.mood_bad),
+            color: Colors.red,
+          )
+        ],
+      );
+    }
+  }
+
   buildSlider() {
     return Container(
       padding: EdgeInsets.only(left: 20),
@@ -192,25 +275,31 @@ class _ItemPageState extends State<ItemPage> {
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         primary: false,
-        itemCount:1,
+        itemCount: 1,
         itemBuilder: (BuildContext context, int index) {
           return Padding(
             padding: EdgeInsets.only(right: 10.0),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10.0),
-              child: Image.network(
-                widget.caseimage,
-                height: 250.0,
-                width: MediaQuery.of(context).size.width - 40.0,
-                fit: BoxFit.cover,
-              ),
+              child: widget.caseimage == null
+                  ? Image.asset(
+                      'images/photo.png',
+                      height: 250,
+                      width: MediaQuery.of(context).size.width - 40.0,
+                      fit: BoxFit.cover,
+                    )
+                  : Image.network(
+                      widget.caseimage,
+                      height: 250,
+                      width: MediaQuery.of(context).size.width - 40.0,
+                      fit: BoxFit.cover,
+                    ),
             ),
           );
         },
       ),
     );
   }
-
 
   Marker localmarker() {
     return Marker(
@@ -219,6 +308,27 @@ class _ItemPageState extends State<ItemPage> {
       markerId: MarkerId('mylocal'),
       position: LatLng(widget.casemap.latitude, widget.casemap.longitude),
     );
+  }
+
+  Future<void> showAlertSucusses(String title, String message) async {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(title),
+            content: Text(message),
+            actions: <Widget>[
+              FlatButton(
+                  onPressed: () {
+                    MaterialPageRoute route =
+                        MaterialPageRoute(builder: (value) => caseattentive());
+                    Navigator.of(context)
+                        .pushAndRemoveUntil(route, (value) => false);
+                  },
+                  child: Text('ok'))
+            ],
+          );
+        });
   }
 
   adddata() async {
@@ -231,7 +341,7 @@ class _ItemPageState extends State<ItemPage> {
       'level': widget.caselevel,
       'position': widget.casemap
     }).then((_) {
-      print('successfully');
+      showAlertSucusses('การอัปโหลด', 'สำเร็จ');
     });
   }
 }
