@@ -90,7 +90,9 @@ class _caseattentiveshow extends State<caseattentiveshow> {
                       icon: Icon(
                         Icons.map,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+
+                      },
                     ),
                   ],
                 ),
@@ -179,6 +181,9 @@ class _caseattentiveshow extends State<caseattentiveshow> {
       ),
     );
   }
+
+
+
 
   Widget textlevel() {
     if (widget.caselevel == 'ระดับความรุนแรง ปลอดภัย') {

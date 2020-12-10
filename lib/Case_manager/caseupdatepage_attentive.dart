@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:appmap/Case_manager/casemanagernotify.dart';
 import 'package:appmap/Case_news/casenews.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -13,12 +14,18 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
-class casadd extends StatefulWidget {
+import 'casemanagerattentive.dart';
+
+class MyUpdatePageattentive extends StatefulWidget {
+  final DocumentSnapshot ds;
+
+  MyUpdatePageattentive({this.ds});
+
   @override
-  _casaddState createState() => _casaddState();
+  _MyUpdatePageattentive createState() => _MyUpdatePageattentive();
 }
 
-class _casaddState extends State<casadd> {
+class _MyUpdatePageattentive extends State<MyUpdatePageattentive> {
   //Fleld
   var locationsget;
   var selectedCurrency, selectedType;
@@ -30,12 +37,12 @@ class _casaddState extends State<casadd> {
   GoogleMapController mapController;
   String inputtaddr;
 
+
   @override
   void initState() {
     super.initState();
     _latitudeController = TextEditingController();
     _longitudeController = TextEditingController();
-
     geo = Geoflutterfire();
     GeoFirePoint center = geo.point(latitude: 12.960632, longitude: 77.641603);
   }
@@ -61,7 +68,7 @@ class _casaddState extends State<casadd> {
     var first = addresses.first;
     Firestore.instance.collection('CaseNotify').add({
       'latlng':
-          GeoPoint(first.coordinates.latitude, first.coordinates.longitude)
+      GeoPoint(first.coordinates.latitude, first.coordinates.longitude)
     });
   }
 
@@ -89,7 +96,7 @@ class _casaddState extends State<casadd> {
             controller: _longitudeController,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
-                labelText: 'lng',fillColor: Colors.white70,
+                labelText: 'lng', fillColor: Colors.white70,
                 filled: true,labelStyle: TextStyle(color: Colors.orangeAccent),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -133,6 +140,7 @@ class _casaddState extends State<casadd> {
   Widget Mapadd() {
     return Container(
       height: 300,
+      // ignore: unnecessary_brace_in_string_interps
       width: MediaQuery.of(context).size.width,
       child: Stack(children: <Widget>[
         GoogleMap(
@@ -164,9 +172,9 @@ class _casaddState extends State<casadd> {
     return DropdownButton(
       items: _accountType
           .map((value) => DropdownMenuItem(
-                child: Text(value),
-                value: value,
-              ))
+        child: Text(value),
+        value: value,
+      ))
           .toList(),
       onChanged: (selectedAccountType) {
         print('$selectedAccountType');
@@ -174,11 +182,14 @@ class _casaddState extends State<casadd> {
           selectedType = selectedAccountType;
         });
       },
+      icon: Icon(Icons.clear_all,color: Colors.black,),
       value: selectedType,
       isExpanded: false,
       hint: Text(
         'เลือกระดับความรุนแรง',
-        style: TextStyle(color: Colors.black),
+        style: TextStyle(
+          color: Colors.black,
+        ),
       ),
     );
   }
@@ -189,7 +200,16 @@ class _casaddState extends State<casadd> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          showImage(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              showImage(),
+              SizedBox(
+                width: 20,
+              ),
+              showImage2(),
+            ],
+          ),
           showButton(),
           SizedBox(
             height: 20,
@@ -203,29 +223,17 @@ class _casaddState extends State<casadd> {
             height: 20,
           ),
           Row(
-            children: <Widget>[
-              SizedBox(
-                width: 40,
-              ),
+            children: <Widget>[SizedBox(width: 40,),
               Radiobutton(),
             ],
           ),
           Row(
-            children: <Widget>[
-              SizedBox(
-                width: 25,
-              ),
+            children: <Widget>[SizedBox(width: 25,),
               getlocation(),
             ],
-          ),
-          SizedBox(
-            height: 10,
-          ),
+          ),SizedBox(height: 10,),
           // Mapadd(),
-          addgeopoint(),
-          SizedBox(
-            height: 10,
-          ),
+          addgeopoint(),SizedBox(height: 20,),
           Buttonuploadfirbase(),
         ],
       ),
@@ -234,18 +242,34 @@ class _casaddState extends State<casadd> {
 
   Widget showImage() {
     return Container(
+        color: Colors.cyan,
+        width: 165,
+        height: 150,
+        child: file == null
+            ? Image.network(
+          '${widget.ds.data['urlimage']}',
+          fit: BoxFit.cover,
+        )
+            : Image.network(
+          '${widget.ds.data['urlimage']}',
+          fit: BoxFit.cover,
+        ));
+  }
+
+  Widget showImage2() {
+    return Container(
       color: Colors.cyan,
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.3,
+      width: 165,
+      height: 150,
       child: file == null
           ? Image.asset(
-              'images/photo.png',
-              fit: BoxFit.cover,
-            )
+        'images/photo.png',
+        fit: BoxFit.cover,
+      )
           : Image.file(
-              file,
-              fit: BoxFit.cover,
-            ),
+        file,
+        fit: BoxFit.cover,
+      ),
     );
   }
 
@@ -253,7 +277,10 @@ class _casaddState extends State<casadd> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
-        camaraButton(),SizedBox(width: 10,),
+        camaraButton(),
+        SizedBox(
+          width: 10,
+        ),
         galleryButton(),
       ],
     );
@@ -264,7 +291,7 @@ class _casaddState extends State<casadd> {
       icon: Icon(
         Icons.add_a_photo,
         size: 45,
-        color: Colors.black,
+        color: Colors.grey,
       ),
       onPressed: () {
         chooseImage(ImageSource.camera);
@@ -292,7 +319,7 @@ class _casaddState extends State<casadd> {
       icon: Icon(
         Icons.add_photo_alternate,
         size: 45,
-        color: Colors.black,
+        color: Colors.grey,
       ),
       onPressed: () {
         chooseImage(ImageSource.gallery);
@@ -312,8 +339,11 @@ class _casaddState extends State<casadd> {
               Icons.account_box,
               color: Colors.black,
             ),
-            labelText: 'ชื่อเคส', fillColor: Colors.white70,
-          filled: true, labelStyle: TextStyle(color: Colors.orangeAccent)),
+            labelText: 'ชื่อเคส',
+            hintText: '${widget.ds.data['name']}',
+            fillColor: Colors.white70,
+            filled: true,
+            labelStyle: TextStyle(color: Colors.orangeAccent)),
       ),
     );
   }
@@ -321,7 +351,8 @@ class _casaddState extends State<casadd> {
   Widget Textdetail() {
     return Container(
       width: MediaQuery.of(context).size.width * 1,
-      child: TextField(  maxLines: 5,
+      child: TextField(
+        maxLines: 5,
         onChanged: (value) {
           detail = value.trim();
         },
@@ -330,8 +361,11 @@ class _casaddState extends State<casadd> {
               Icons.dvr,
               color: Colors.black,
             ),
-            labelText: 'สาเหตุ', fillColor: Colors.white70,
-          filled: true, labelStyle: TextStyle(color: Colors.orangeAccent)),
+            labelText: 'สาเหตุ',
+            hintText: '${widget.ds.data['detail']}',
+            fillColor: Colors.white70,
+            filled: true,
+            labelStyle: TextStyle(color: Colors.orangeAccent)),
       ),
     );
   }
@@ -346,20 +380,16 @@ class _casaddState extends State<casadd> {
             color: Colors.orange,
             onPressed: () {
               print('คลิ๊กอัปโหลด');
-              if (file == null) {
-                InsertvaluetofiresStrage2(
-                    double.parse(_latitudeController.text),
-                    double.parse(_longitudeController.text));
-              } else if (name == null ||
+              if (name == null ||
                   name.isEmpty ||
                   detail == null ||
                   detail.isEmpty ||
-                  selectedType == null ||
-                  _longitudeController == null ||
-                  _latitudeController == null) {
+                  selectedType == null ) {
                 showAlert('ล้มเหลว', 'กรุณากรอกทุกช่อง');
-              } else {
-                //upload to firesbase
+              } else if (file == null || _longitudeController == null || _latitudeController == null) {
+                InsertvaluetofiresStrage2();
+              }
+              else {
                 uploadPicturetofiresStrage();
               }
             },
@@ -405,8 +435,8 @@ class _casaddState extends State<casadd> {
             actions: <Widget>[
               FlatButton(
                   onPressed: () {
-                    MaterialPageRoute route =
-                        MaterialPageRoute(builder: (value) => casenews());
+                    MaterialPageRoute route = MaterialPageRoute(
+                        builder: (value) => casemanagerattentive());
                     Navigator.of(context)
                         .pushAndRemoveUntil(route, (value) => false);
                   },
@@ -416,13 +446,43 @@ class _casaddState extends State<casadd> {
         });
   }
 
+  Future<void> InsertvaluetofiresStrage3() async {
+    _firestore
+        .collection('Caseinterested')
+        .document(widget.ds.documentID)
+        .updateData({
+      'name': name,
+      'detail': detail,
+      'level': selectedType,
+      'urlimage': urlimage,
+    }).then((_) {
+
+    });
+    showAlertSucusses('การอัปโหลด', 'สำเร็จ');
+  }
+
+
+  Future<void> InsertvaluetofiresStrage2() async {
+    _firestore
+        .collection('Caseinterested')
+        .document(widget.ds.documentID)
+        .updateData({
+      'name': name,
+      'detail': detail,
+      'level': selectedType,
+    }).then((_) {
+
+    });
+    showAlertSucusses('การอัปโหลด', 'สำเร็จ');
+  }
+
   Future<void> uploadPicturetofiresStrage() async {
     Random random = Random();
     int i = random.nextInt(100000);
 
     FirebaseStorage firebaseStorage = FirebaseStorage.instance;
     StorageReference storageReference =
-        firebaseStorage.ref().child('CaseImage/case$i.jpg');
+    firebaseStorage.ref().child('CaseImage/case$i.jpg');
     StorageUploadTask storageUploadTask = storageReference.putFile(file);
     urlimage = await (await storageUploadTask.onComplete).ref.getDownloadURL();
     InsertvaluetofiresStrage(double.parse(_latitudeController.text),
@@ -431,36 +491,38 @@ class _casaddState extends State<casadd> {
     showAlertSucusses('การอัปโหลด', 'สำเร็จ');
   }
 
-  Future<void> InsertvaluetofiresStrage2(double lat, double lng) async {
+  Future<void> InsertvaluetofiresStrage(double lat, double lng) async {
     GeoFirePoint geoFirePoint = geo.point(latitude: lat, longitude: lng);
-    _firestore.collection('CaseNotify').add({
+    _firestore
+        .collection('Caseinterested')
+        .document(widget.ds.documentID)
+        .updateData({
       'name': name,
       'detail': detail,
-      'urlimage': urlimage,
       'level': selectedType,
-      'position': geoFirePoint.data,
+      'urlimage': urlimage,
+      'position': geoFirePoint.data
     }).then((_) {
       print('added ${geoFirePoint.hash} successfully');
     });
     showAlertSucusses('การอัปโหลด', 'สำเร็จ');
   }
 
-  Future<void> InsertvaluetofiresStrage(double lat, double lng) async {
-    GeoFirePoint geoFirePoint = geo.point(latitude: lat, longitude: lng);
-    _firestore.collection('CaseNotify').add({
-      'name': name,
-      'detail': detail,
-      'urlimage': urlimage,
-      'level': selectedType,
-      'position': geoFirePoint.data,
-    }).then((_) {
-      print('added ${geoFirePoint.hash} successfully');
-    });
-  }
+  // Future<void> InsertvaluetofiresStrage(double lat, double lng) async {
+  //   GeoFirePoint geoFirePoint = geo.point(latitude: lat, longitude: lng);
+  //   _firestore.collection('CaseNotify').add({
+  //     'name': name,
+  //     'detail': detail,
+  //     'urlimage': urlimage,
+  //     'level': selectedType,
+  //     'position': geoFirePoint.data
+  //   }).then((_) {
+  //     print('added ${geoFirePoint.hash} successfully');
+  //   });
+  // }
 
   void _addPoint(double lat, double lng) {
     GeoFirePoint geoFirePoint = geo.point(latitude: lat, longitude: lng);
-    String geoFirePoint2 = '${geoFirePoint.toString()}';
     _firestore.collection('locations').add({
       'name': name,
       'detail': detail,
@@ -477,9 +539,9 @@ class _casaddState extends State<casadd> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.orange[200],
-        appBar: AppBar( automaticallyImplyLeading: false,
+        appBar: AppBar(
           title: Text(
-            'เพิ่มเคสความรุนแรง',
+            'แก้ไขเคสความรุนแรง',
             style: TextStyle(color: Colors.white),
           ),
         ),

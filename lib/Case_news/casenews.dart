@@ -1,4 +1,6 @@
 import 'package:appmap/Login/login.dart';
+import 'package:appmap/Map/Homeviewgoolemap.dart';
+import 'package:appmap/Map/Navigationbar.dart';
 import 'package:appmap/components/search_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,7 +26,7 @@ class _casenewsState extends State<casenews> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.orange[200],
-        appBar: AppBar(
+        appBar: AppBar( automaticallyImplyLeading: false,
           backgroundColor: Colors.orangeAccent[200],
           title: Text(
             "ข่าวใหม่",
@@ -35,8 +37,8 @@ class _casenewsState extends State<casenews> {
                 icon: Icon(Icons.home),
                 color: Colors.white,
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LoginPage()));
+                  // Navigator.push(context,
+                  //     MaterialPageRoute(builder: (context) => MapsPage()));
                 })
           ],
         ),
@@ -141,6 +143,7 @@ class _casenewsState extends State<casenews> {
                                   casedetail: doc.data["detail"],
                                   caseimage: doc.data["urlimage"],
                                   caselevel: doc.data["level"],
+                                  caseby: doc.data['notifyby'],
                                   casemap: doc.data["position"]['geopoint'],
                                 ),
                               ),

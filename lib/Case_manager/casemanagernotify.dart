@@ -1,6 +1,9 @@
+import 'package:appmap/Case_attentive/case_attentiveshowdetail.dart';
 import 'package:appmap/Case_manager/caseupdatepage.dart';
+import 'package:appmap/Case_news/caseshow.dart';
 import 'package:appmap/Login/login.dart';
 import 'package:appmap/Profile/testupdate.dart';
+import 'package:appmap/updata_notify/update_notify.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +15,6 @@ class casemanagernotify extends StatefulWidget {
 
 class _casemanagernotify extends State<casemanagernotify> {
   final db = Firestore.instance;
-  var selectedCurrency, selectedType;
-
   TextEditingController titleController = TextEditingController();
   TextEditingController authorController = TextEditingController();
 
@@ -22,35 +23,6 @@ class _casemanagernotify extends State<casemanagernotify> {
     super.initState();
   }
 
-  List<String> _accountType = <String>[
-    'ระดับความรุนแรง ปลอดภัย',
-    'ระดับความรุนแรง น้อย',
-    'ระดับความรุนแรง มาก',
-    'ระดับความรุนแรง มากที่สุด',
-  ];
-
-  Widget Radiobutton() {
-    return DropdownButton(
-      items: _accountType
-          .map((value) => DropdownMenuItem(
-                child: Text(value),
-                value: value,
-              ))
-          .toList(),
-      onChanged: (selectedAccountType) {
-        print('$selectedAccountType');
-        setState(() {
-          selectedType = selectedAccountType;
-        });
-      },
-      value: selectedType,
-      isExpanded: false,
-      hint: Text(
-        'เลือกระดับความรุนแรง',
-        style: TextStyle(color: Colors.orange),
-      ),
-    );
-  }
 
   navigateToDetail(DocumentSnapshot ds) {
     Navigator.push(
@@ -61,9 +33,15 @@ class _casemanagernotify extends State<casemanagernotify> {
                 )));
   }
 
-  void deleteData(DocumentSnapshot doc) async {
-    await db.collection('colrecipes').document(doc.documentID).delete();
+  navigateToDetail2(DocumentSnapshot ds) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => update_notify(
+              ds: ds,
+            )));
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -99,6 +77,88 @@ class _casemanagernotify extends State<casemanagernotify> {
                 padding: EdgeInsets.all(2.0),
                 itemBuilder: (_, int index) {
                   final DocumentSnapshot doc = snapshot.data.documents[index];
+                  testdata() {
+                    if (doc.data['level'] == 'ระดับความรุนแรง ปลอดภัย') {
+                      return Row(
+                        children: <Widget>[
+                          Text(
+                            '${doc.data['level']}',
+                            style: TextStyle(
+                              color: Colors.green,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 10,
+                            ),
+                            maxLines: 1,
+                            textAlign: TextAlign.left,
+                          ),
+                          Icon(
+                            (Icons.mood),
+                            color: Colors.green,
+                          )
+                        ],
+                      );
+                    } else if (doc.data['level'] ==
+                        'ระดับความรุนแรง น้อย') {
+                      return Row(
+                        children: <Widget>[
+                          Text(
+                            '${doc.data['level']}',
+                            style: TextStyle(
+                              color: Colors.yellow,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 10,
+                            ),
+                            maxLines: 1,
+                            textAlign: TextAlign.left,
+                          ),
+                          Icon(
+                            (Icons.sentiment_neutral),
+                            color: Colors.yellow,
+                          )
+                        ],
+                      );
+                    } else if (doc.data['level'] ==
+                        'ระดับความรุนแรง มาก') {
+                      return Row(
+                        children: <Widget>[
+                          Text(
+                            '${doc.data['level']}',
+                            style: TextStyle(
+                                color: Colors.orange,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 10),
+                            maxLines: 1,
+                            textAlign: TextAlign.left,
+                          ),
+                          Icon(
+                            (Icons.sentiment_dissatisfied),
+                            color: Colors.orange,
+                          )
+                        ],
+                      );
+                    } else if (doc.data['level'] ==
+                        'ระดับความรุนแรง มากที่สุด') {
+                      return Row(
+                        children: <Widget>[
+                          Text(
+                            '${doc.data['level']}',
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 10,
+                            ),
+                            maxLines: 1,
+                            textAlign: TextAlign.left,
+                          ),
+                          Icon(
+                            (Icons.mood_bad),
+                            color: Colors.red,
+                          )
+                        ],
+                      );
+                    }
+                  }
+
                   return new Container(
                     child: Card(
                       child: Column(
@@ -108,7 +168,7 @@ class _casemanagernotify extends State<casemanagernotify> {
                           Row(
                             children: <Widget>[
                               InkWell(
-                                onTap: () => navigateToDetail(doc),
+                                onTap: (){},
                                 child: Container(
                                   child: doc.data['urlimage'] == null
                                       ? Image.asset('images/photo.png',
@@ -136,12 +196,7 @@ class _casemanagernotify extends State<casemanagernotify> {
                                   fontSize: 19.0,
                                 ),
                               ),
-                              subtitle: Text(
-                                doc.data["detail"],
-                                style: TextStyle(
-                                    color: Colors.redAccent, fontSize: 12.0),
-                              ),
-                              onTap: () => navigateToDetail(doc),
+                              subtitle: testdata(),
                             ),
                           ),
                           Divider(),
@@ -171,7 +226,7 @@ class _casemanagernotify extends State<casemanagernotify> {
                                         Icons.remove_red_eye,
                                         color: Colors.blueAccent,
                                       ),
-                                      onPressed: () {},
+                                      onPressed: () => navigateToDetail2(doc),
                                     ),
                                   ],
                                 ),

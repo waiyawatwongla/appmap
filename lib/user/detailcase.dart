@@ -5,33 +5,38 @@ import 'package:flutter/material.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class ItemPage extends StatefulWidget {
+
+class detailcase extends StatefulWidget {
   final String casename;
   final String casedetail;
   final String caseimage;
   final String caselevel;
   final String caseby;
+  final Timestamp date;
   final GeoPoint casemap;
 
-  ItemPage({
+  detailcase({
     Key key,
     @required this.casename,
     @required this.casedetail,
     @required this.caseimage,
     @required this.caselevel,
     @required this.caseby,
+    @required this.date,
     @required this.casemap,
   }) : super(key: key);
 
   @override
-  _ItemPageState createState() => _ItemPageState();
+  _detailcase createState() => _detailcase();
 }
 
-class _ItemPageState extends State<ItemPage> {
+class _detailcase extends State<detailcase> {
   String casedetail = "Please wait...detail";
   String caseimage = "Please wait.....";
   String caselevel = "Please wait.....";
   Geoflutterfire geo;
+
+  get timeago => widget.date;
   Set<Marker> mymarkers() {
     return <Marker>[localmarker()].toSet();
   }
@@ -61,16 +66,6 @@ class _ItemPageState extends State<ItemPage> {
             ),
             onPressed: () => Navigator.pop(context),
           ),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.cloud_upload,
-              ),
-              onPressed: () {
-                adddata();
-              },
-            ),
-          ],
         ),
         body: ListView(
           children: <Widget>[
@@ -95,29 +90,6 @@ class _ItemPageState extends State<ItemPage> {
                           fontSize: 32,
                         ),
                         maxLines: 2,
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Icon(
-                      Icons.call,
-                      size: 14,
-                      color: Colors.green,
-                    ),
-                    SizedBox(width: 3),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        '081234975319',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 13,
-                          color: Colors.blueGrey[300],
-                        ),
-                        maxLines: 1,
                         textAlign: TextAlign.left,
                       ),
                     ),
@@ -176,8 +148,7 @@ class _ItemPageState extends State<ItemPage> {
                     ),
                     textAlign: TextAlign.left,
                   ),
-                ),
-                SizedBox(height: 10.0),
+                ), SizedBox(height: 10.0),
                 Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -189,7 +160,7 @@ class _ItemPageState extends State<ItemPage> {
                     maxLines: 1,
                     textAlign: TextAlign.left,
                   ),
-                ),SizedBox(height: 20,),
+                ), SizedBox(height: 10.0),
                 Container(
                   height: 200,
                   width: 320,
@@ -210,13 +181,6 @@ class _ItemPageState extends State<ItemPage> {
               ],
             ),
           ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.green,
-          child: Icon(
-            Icons.call,
-          ),
-          onPressed: () {},
         ),
       ),
     );
@@ -317,17 +281,17 @@ class _ItemPageState extends State<ItemPage> {
               borderRadius: BorderRadius.circular(10.0),
               child: widget.caseimage == null
                   ? Image.asset(
-                      'images/photo.png',
-                      height: 250,
-                      width: MediaQuery.of(context).size.width - 40.0,
-                      fit: BoxFit.cover,
-                    )
+                'images/photo.png',
+                height: 250,
+                width: MediaQuery.of(context).size.width - 40.0,
+                fit: BoxFit.cover,
+              )
                   : Image.network(
-                      widget.caseimage,
-                      height: 250,
-                      width: MediaQuery.of(context).size.width - 40.0,
-                      fit: BoxFit.cover,
-                    ),
+                widget.caseimage,
+                height: 250,
+                width: MediaQuery.of(context).size.width - 40.0,
+                fit: BoxFit.cover,
+              ),
             ),
           );
         },
@@ -338,7 +302,7 @@ class _ItemPageState extends State<ItemPage> {
   Marker localmarker() {
     return Marker(
       infoWindow:
-          InfoWindow(title: widget.casename, snippet: "${widget.caselevel}"),
+      InfoWindow(title: widget.casename, snippet: "${widget.caselevel}"),
       markerId: MarkerId('mylocal'),
       position: LatLng(widget.casemap.latitude, widget.casemap.longitude),
     );
@@ -354,7 +318,10 @@ class _ItemPageState extends State<ItemPage> {
             actions: <Widget>[
               FlatButton(
                   onPressed: () {
-                   Navigator.pop(context);
+                    MaterialPageRoute route =
+                    MaterialPageRoute(builder: (value) => caseattentive());
+                    Navigator.of(context)
+                        .pushAndRemoveUntil(route, (value) => false);
                   },
                   child: Text('ok'))
             ],
@@ -370,7 +337,6 @@ class _ItemPageState extends State<ItemPage> {
       'detail': widget.casedetail,
       'urlimage': widget.caseimage,
       'level': widget.caselevel,
-      'notifyby': widget.caseby,
       'position': geoFirePoint.data
     }).then((_) {
       showAlertSucusses('การอัปโหลด', 'สำเร็จ');

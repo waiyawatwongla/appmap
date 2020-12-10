@@ -47,39 +47,42 @@ class _NavigationbarState extends State<Navigationbar> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          drawer: _drawer(),
-          body: Center(
-            child: _pageWidget.elementAt(_selectedIndex),
+        body: Center(
+          child: _pageWidget.elementAt(_selectedIndex),
+        ),
+        drawer: _drawer(),
+        bottomNavigationBar: Theme(
+          data: Theme.of(context).copyWith(
+              canvasColor: Colors.orangeAccent[200],
+              primaryColor: Colors.white,
+              textTheme: Theme.of(context)
+                  .textTheme
+                  .copyWith(caption: TextStyle(color: Colors.black))),
+          child: BottomNavigationBar(
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.map),
+                title: Text('แผนที่'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.add),
+                title: Text('แจ้งข่าว'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.new_releases),
+                title: Text('ข่าวใหม่'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.favorite),
+                title: Text('เคสที่สนใจ'),
+              ),
+            ],
+            currentIndex: _selectedIndex,
+            selectedItemColor: Colors.white,
+            onTap: _onItemTapped,
           ),
-          bottomNavigationBar: Theme(
-            data: Theme.of(context).copyWith(
-                canvasColor: Colors.orangeAccent[200],
-                primaryColor: Colors.white,
-                textTheme: Theme.of(context).textTheme.copyWith(caption: TextStyle(color: Colors.black))),
-            child: BottomNavigationBar(
-              items: <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.map),
-                  title: Text('แผนที่'),
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.add),
-                  title: Text('แจ้งข่าว'),
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.new_releases),
-                  title: Text('ข่าวใหม่'),
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.favorite),
-                  title: Text('เคสที่สนใจ'),
-                ),
-              ],
-              currentIndex: _selectedIndex,
-              selectedItemColor: Colors.white,
-              onTap: _onItemTapped,
-            ),
-          )),
+        ),
+      ),
     );
   }
 
@@ -116,7 +119,7 @@ class _NavigationbarState extends State<Navigationbar> {
                   Text(
                     widget.user.email,
                     style: TextStyle(fontWeight: FontWeight.bold),
-                  )
+                  ),
                 ],
               )
             ]),
@@ -128,8 +131,8 @@ class _NavigationbarState extends State<Navigationbar> {
             ),
             title: Text("จัดการเคส"),
             onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => casemanager()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => casemanager()));
             },
           ),
           ListTile(
@@ -139,8 +142,8 @@ class _NavigationbarState extends State<Navigationbar> {
             ),
             title: Text("เคสที่สนใจ"),
             onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => caseattentive()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => caseattentive()));
             },
           ),
           ListTile(

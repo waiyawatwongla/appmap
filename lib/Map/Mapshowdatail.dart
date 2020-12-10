@@ -1,4 +1,4 @@
-import 'file:///D:/Flutter/appmap/lib/test/gettest.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -223,8 +223,16 @@ class _Mapshowdatail extends State<Mapshowdatail> {
             padding: EdgeInsets.only(right: 10.0),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10.0),
-              child: Image.network('${widget.caseimage}',
-                height: 250.0,
+              child: widget.caseimage == null
+                  ? Image.asset(
+                'images/photo.png',
+                height: 250,
+                width: MediaQuery.of(context).size.width - 40.0,
+                fit: BoxFit.cover,
+              )
+                  : Image.network(
+                widget.caseimage,
+                height: 250,
                 width: MediaQuery.of(context).size.width - 40.0,
                 fit: BoxFit.cover,
               ),

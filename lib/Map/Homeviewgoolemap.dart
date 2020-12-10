@@ -6,19 +6,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../Case_notify/caseadd.dart';
-import '../test/gettest.dart';
+
 
 class MapsPage extends StatefulWidget {
-  // final FirebaseUser user;
-  //
-  // MapsPage(this.user, {Key key}) : super(key: key);
-
   @override
   _MapsPageState createState() => _MapsPageState();
 }
 
 class _MapsPageState extends State<MapsPage> {
-  // final FirebaseAuth _auth = FirebaseAuth.instance;
   GoogleMapController controller;
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
@@ -30,7 +25,7 @@ class _MapsPageState extends State<MapsPage> {
       onTap: () {},
       markerId: markerId,
       position:
-          LatLng(specify['position'].latitude, specify['position'].longitude),
+          LatLng(specify['position']['geopoint'].latitude, specify['position']['geopoint'].longitude),
       infoWindow: InfoWindow(
         title: specify['name'],
         snippet: specify['level'],
@@ -43,7 +38,7 @@ class _MapsPageState extends State<MapsPage> {
                 caselevel: specify['level'],
                 casedetail: specify['detail'],
                 caseimage:specify['urlimage'],
-                casemap: specify['position'],
+                casemap: specify['position']['geopoint'],
               ),
             ),
           );
@@ -69,14 +64,6 @@ class _MapsPageState extends State<MapsPage> {
     });
   }
 
-  // void signOut(BuildContext context) {
-  //   _auth.signOut();
-  //   Navigator.pushAndRemoveUntil(
-  //       context,
-  //       MaterialPageRoute(builder: (context) => LoginPage()),
-  //       ModalRoute.withName('/'));
-  // }
-
   @override
   void initState() {
     getMarkerData();
@@ -87,7 +74,7 @@ class _MapsPageState extends State<MapsPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
+        appBar: AppBar( automaticallyImplyLeading: false,
           backgroundColor: Colors.orange[300],
           title: Text(
             'แผนที่แสดงเคสเฝ้าระวังความรุนแรง',

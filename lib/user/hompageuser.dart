@@ -1,38 +1,38 @@
-import 'package:appmap/Case_attentive/case_attentiveshowdetail.dart';
+
 import 'package:appmap/Login/login.dart';
+import 'package:appmap/user/addcase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class caseattentive extends StatefulWidget {
+import 'detailcase.dart';
+
+class homepageuser extends StatefulWidget {
+  final FirebaseUser user;
+
+  homepageuser(this.user, {Key key}) : super(key: key);
+
   @override
-  _caseattentiveState createState() => _caseattentiveState();
+  _homepageuserState createState() => _homepageuserState();
 }
 
-class _caseattentiveState extends State<caseattentive> {
+class _homepageuserState extends State<homepageuser> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(backgroundColor: Colors.orange[200],
-        appBar: AppBar( automaticallyImplyLeading: false,
-          title: Text(
-            "เคสที่สนใจ",
-            style: TextStyle(color: Colors.white),
-          ),
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.home),
-                color: Colors.white,
-                onPressed: () {
-                  // Navigator.push(context,
-                  //     MaterialPageRoute(builder: (context) => LoginPage()));
-                })
-          ],
+      child: Scaffold(
+        drawer: _drawer(),
+        appBar: AppBar( automaticallyImplyLeading: true,
+          backgroundColor: Colors.white10,
         ),
+        backgroundColor: Colors.orangeAccent,
         body: ListView(
           padding: EdgeInsets.all(0),
           children: <Widget>[
             StreamBuilder<QuerySnapshot>(
-                stream: Firestore.instance.collection('Caseinterested').snapshots(),
+                stream: Firestore.instance.collection('CaseNotify').snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return Column(
@@ -119,23 +119,23 @@ class _caseattentiveState extends State<caseattentive> {
                           }
                         }
 
-                        return InkWell(onTap: (){
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => caseattentiveshow(
-                                casename:
-                                doc.data["name"],
-                                casedetail:
-                                doc.data["detail"],
-                                caseimage: doc.data["urlimage"],
-                                caselevel:
-                                doc.data["level"],
-                                casemap: doc.data["position"]["geopoint"],
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => detailcase(
+                                  casename: doc.data["name"],
+                                  casedetail: doc.data["detail"],
+                                  caseimage: doc.data["urlimage"],
+                                  caselevel: doc.data["level"],
+                                  caseby: doc.data['notifyby'],
+                                  date: doc.data['date'],
+                                  casemap: doc.data["position"]['geopoint'],
+                                ),
                               ),
-                            ),
-                          );
-                        },
+                            );
+                          },
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 5.0, vertical: 0.0),
@@ -152,7 +152,7 @@ class _caseattentiveState extends State<caseattentive> {
                                       borderRadius: BorderRadius.circular(5),
                                       child: doc.data['urlimage'] == null
                                           ? Image.asset(
-                                        'images/camera.png',
+                                        'images/photo.png',
                                         height: 70.0,
                                         width: 70.0,
                                         fit: BoxFit.cover,
@@ -200,5 +200,90 @@ class _caseattentiveState extends State<caseattentive> {
         ),
       ),
     );
+  }
+
+  Widget _drawer() {
+    return Drawer(
+      child: Column(
+        children: <Widget>[
+          Opacity(
+            opacity: 0.75,
+            child: Stack(children: <Widget>[
+              Column(
+                children: <Widget>[
+                  Container(
+                    height: 250,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.orangeAccent,
+                          Colors.orangeAccent,
+                          Colors.orange
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  Image.asset(
+                    'images/logo.png',
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    height: MediaQuery.of(context).size.height * 0.3,
+                  ),
+                  Text(
+                    widget.user.email,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ],
+              )
+            ]),
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.add,
+              color: Colors.orangeAccent,
+            ),
+            title: Text("แจ้งความรุนแรง"),
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => addcase(user: widget.user)));
+            },
+          ),
+          Divider(),
+          ListTile(
+              leading: Icon(
+                Icons.account_box,
+                color: Colors.orangeAccent,
+              ),
+              title: Text("โปรไฟล์"),
+              onTap: () {
+                // Navigator.push(
+                //     context, MaterialPageRoute(builder: (context) => MyHomePage()));
+              }),
+          Divider(),
+          ListTile(
+            leading: Icon(
+              Icons.exit_to_app,
+              color: Colors.orangeAccent,
+            ),
+            title: Text("ออกจากระบบ"),
+            onTap: () {
+              signOut(context);
+            },
+          ),
+          Divider(),
+        ],
+      ),
+    );
+  }
+
+  void signOut(BuildContext context) {
+    _auth.signOut();
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => LoginPage()),
+        ModalRoute.withName('/'));
   }
 }

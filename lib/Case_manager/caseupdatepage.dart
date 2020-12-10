@@ -25,6 +25,7 @@ class MyUpdatePage extends StatefulWidget {
 
 class _MyUpdatePage extends State<MyUpdatePage> {
   //Fleld
+  //Fleld
   var locationsget;
   var selectedCurrency, selectedType;
   File file;
@@ -35,12 +36,12 @@ class _MyUpdatePage extends State<MyUpdatePage> {
   GoogleMapController mapController;
   String inputtaddr;
 
+
   @override
   void initState() {
     super.initState();
     _latitudeController = TextEditingController();
     _longitudeController = TextEditingController();
-
     geo = Geoflutterfire();
     GeoFirePoint center = geo.point(latitude: 12.960632, longitude: 77.641603);
   }
@@ -60,13 +61,56 @@ class _MyUpdatePage extends State<MyUpdatePage> {
     'ระดับความรุนแรง มากที่สุด',
   ];
 
+
+  Widget Buttonuploadfirbase() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: <Widget>[
+        Container(
+          width: MediaQuery.of(context).size.width,
+          child: RaisedButton.icon(
+            color: Colors.orange,
+            onPressed: () {
+              print('คลิ๊กอัปโหลด');
+              if (name == null ||
+                  name.isEmpty ||
+                  detail == null ||
+                  detail.isEmpty ||
+                  selectedType == null ||
+                  _longitudeController == null ||
+                  _latitudeController == null) {
+                showAlert('ล้มเหลว', 'กรุณากรอกทุกช่อง');
+              } else if (file == null) {
+                InsertvaluetofiresStrage2(
+                    double.parse(_latitudeController.text),
+                    double.parse(_longitudeController.text));
+              }
+              else {
+                //upload to firesbase
+                uploadPicturetofiresStrage();
+              }
+            },
+            icon: Icon(
+              Icons.cloud_upload,
+              color: Colors.white,
+            ),
+            label: Text(
+              'Upload to Data',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   addtolist() async {
     final query = inputtaddr;
     var addresses = await Geocoder.local.findAddressesFromQuery(query);
     var first = addresses.first;
     Firestore.instance.collection('CaseNotify').add({
       'latlng':
-          GeoPoint(first.coordinates.latitude, first.coordinates.longitude)
+      GeoPoint(first.coordinates.latitude, first.coordinates.longitude)
     });
   }
 
@@ -170,9 +214,9 @@ class _MyUpdatePage extends State<MyUpdatePage> {
     return DropdownButton(
       items: _accountType
           .map((value) => DropdownMenuItem(
-                child: Text(value),
-                value: value,
-              ))
+        child: Text(value),
+        value: value,
+      ))
           .toList(),
       onChanged: (selectedAccountType) {
         print('$selectedAccountType');
@@ -231,7 +275,8 @@ class _MyUpdatePage extends State<MyUpdatePage> {
             ],
           ),SizedBox(height: 10,),
           // Mapadd(),
-          addgeopoint(),
+          addgeopoint(),SizedBox(height: 20,),
+          Buttonuploadfirbase(),
         ],
       ),
     );
@@ -244,13 +289,13 @@ class _MyUpdatePage extends State<MyUpdatePage> {
         height: 150,
         child: file == null
             ? Image.network(
-                '${widget.ds.data['urlimage']}',
-                fit: BoxFit.cover,
-              )
+          '${widget.ds.data['urlimage']}',
+          fit: BoxFit.cover,
+        )
             : Image.network(
-                '${widget.ds.data['urlimage']}',
-                fit: BoxFit.cover,
-              ));
+          '${widget.ds.data['urlimage']}',
+          fit: BoxFit.cover,
+        ));
   }
 
   Widget showImage2() {
@@ -260,13 +305,13 @@ class _MyUpdatePage extends State<MyUpdatePage> {
       height: 150,
       child: file == null
           ? Image.asset(
-              'images/photo.png',
-              fit: BoxFit.cover,
-            )
+        'images/photo.png',
+        fit: BoxFit.cover,
+      )
           : Image.file(
-              file,
-              fit: BoxFit.cover,
-            ),
+        file,
+        fit: BoxFit.cover,
+      ),
     );
   }
 
@@ -367,46 +412,7 @@ class _MyUpdatePage extends State<MyUpdatePage> {
     );
   }
 
-  Widget Buttonuploadfirbase() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: <Widget>[
-        Container(
-          width: MediaQuery.of(context).size.width,
-          child: RaisedButton.icon(
-            color: Colors.orange,
-            onPressed: () {
-              print('คลิ๊กอัปโหลด');
-              if (file == null) {
-                InsertvaluetofiresStrage2(
-                    double.parse(_latitudeController.text),
-                    double.parse(_longitudeController.text));
-              } else if (name == null ||
-                  name.isEmpty ||
-                  detail == null ||
-                  detail.isEmpty ||
-                  selectedType == null ||
-                  _longitudeController == null ||
-                  _latitudeController == null) {
-                showAlert('ล้มเหลว', 'กรุณากรอกทุกช่อง');
-              } else {
-                //upload to firesbase
-                uploadPicturetofiresStrage();
-              }
-            },
-            icon: Icon(
-              Icons.cloud_upload,
-              color: Colors.white,
-            ),
-            label: Text(
-              'Upload to Data',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+
 
   Future<void> showAlert(String title, String message) async {
     showDialog(
@@ -456,7 +462,6 @@ class _MyUpdatePage extends State<MyUpdatePage> {
       'name': name,
       'detail': detail,
       'level': selectedType,
-      'urlimage': urlimage,
       'position': geoFirePoint.data
     }).then((_) {
       print('added ${geoFirePoint.hash} successfully');
@@ -470,7 +475,7 @@ class _MyUpdatePage extends State<MyUpdatePage> {
 
     FirebaseStorage firebaseStorage = FirebaseStorage.instance;
     StorageReference storageReference =
-        firebaseStorage.ref().child('CaseImage/case$i.jpg');
+    firebaseStorage.ref().child('CaseImage/case$i.jpg');
     StorageUploadTask storageUploadTask = storageReference.putFile(file);
     urlimage = await (await storageUploadTask.onComplete).ref.getDownloadURL();
     InsertvaluetofiresStrage(double.parse(_latitudeController.text),
@@ -525,7 +530,7 @@ class _MyUpdatePage extends State<MyUpdatePage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(resizeToAvoidBottomPadding: false,
+      child: Scaffold(
         backgroundColor: Colors.orange[200],
         appBar: AppBar(
           title: Text(
@@ -538,7 +543,7 @@ class _MyUpdatePage extends State<MyUpdatePage> {
             child: Stack(
               children: <Widget>[
                 showContent(),
-                Buttonuploadfirbase(),
+
               ],
             )),
       ),
