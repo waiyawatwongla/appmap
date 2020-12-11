@@ -1,5 +1,5 @@
 import 'package:appmap/Case_manager/casemanager.dart';
-import 'package:appmap/Profile/testupdate.dart';
+import 'package:appmap/Profile/profilepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -198,8 +198,8 @@ class _NavigationbarState extends State<Navigationbar> {
               ),
               title: Text("โปรไฟล์",style: TextStyle( fontFamily: 'Kanit')),
               onTap: () {
-                // Navigator.push(
-                //     context, MaterialPageRoute(builder: (context) => MyHomePage()));
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => profilepage(widget.user)));
               }),Divider(),
           ListTile(
             leading: Icon(

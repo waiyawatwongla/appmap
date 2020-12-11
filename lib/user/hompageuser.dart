@@ -1,5 +1,6 @@
 import 'package:appmap/Login/login.dart';
 import 'package:appmap/user/addcase.dart';
+import 'package:appmap/user/profileuser.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -316,8 +317,8 @@ class _homepageuserState extends State<homepageuser> {
                 style: TextStyle(fontFamily: 'Kanit'),
               ),
               onTap: () {
-                // Navigator.push(
-                //     context, MaterialPageRoute(builder: (context) => MyHomePage()));
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => profileuser(widget.user)));
               }),
           Divider(),
           ListTile(

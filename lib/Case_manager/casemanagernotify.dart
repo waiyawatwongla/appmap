@@ -2,7 +2,6 @@ import 'package:appmap/Case_attentive/case_attentiveshowdetail.dart';
 import 'package:appmap/Case_manager/caseupdatepage.dart';
 import 'package:appmap/Case_news/caseshow.dart';
 import 'package:appmap/Login/login.dart';
-import 'package:appmap/Profile/testupdate.dart';
 import 'package:appmap/updata_notify/update_notify.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
