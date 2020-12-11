@@ -48,10 +48,10 @@ class _caseattentiveshow extends State<caseattentiveshow> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
+        appBar: AppBar(backgroundColor: Colors.green[900],
           title: Text(
             widget.casename,
-            style: TextStyle(fontSize: 18),
+            style: TextStyle(fontSize: 18,fontFamily: 'Kanit',),
           ),
           leading: IconButton(
             icon: Icon(
@@ -78,7 +78,7 @@ class _caseattentiveshow extends State<caseattentiveshow> {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         widget.casename,
-                        style: TextStyle(
+                        style: TextStyle(fontFamily: 'Kanit',
                           fontWeight: FontWeight.w700,
                           fontSize: 32,
                         ),
@@ -108,7 +108,7 @@ class _caseattentiveshow extends State<caseattentiveshow> {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         '081234975319',
-                        style: TextStyle(
+                        style: TextStyle(fontFamily: 'Kanit',
                           fontWeight: FontWeight.bold,
                           fontSize: 13,
                           color: Colors.blueGrey[300],
@@ -129,7 +129,7 @@ class _caseattentiveshow extends State<caseattentiveshow> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "รายละเอียด",
-                    style: TextStyle(
+                    style: TextStyle(fontFamily: 'Kanit',
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
@@ -142,7 +142,7 @@ class _caseattentiveshow extends State<caseattentiveshow> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     widget.casedetail,
-                    style: TextStyle(
+                    style: TextStyle(fontFamily: 'Kanit',
                       fontWeight: FontWeight.normal,
                       fontSize: 15.0,
                     ),
@@ -192,7 +192,7 @@ class _caseattentiveshow extends State<caseattentiveshow> {
           Text(
             '${widget.caselevel}',
             style: TextStyle(
-              color: Colors.green,
+              color: Colors.green,fontFamily: 'Kanit',
               fontWeight: FontWeight.bold,
               fontSize: 17,
             ),
@@ -211,7 +211,7 @@ class _caseattentiveshow extends State<caseattentiveshow> {
           Text(
             '${widget.caselevel}',
             style: TextStyle(
-              color: Colors.yellow,
+              color: Colors.yellow,fontFamily: 'Kanit',
               fontWeight: FontWeight.bold,
               fontSize: 17,
             ),
@@ -230,7 +230,7 @@ class _caseattentiveshow extends State<caseattentiveshow> {
           Text(
             '${widget.caselevel}',
             style: TextStyle(
-              color: Colors.orange,
+              color: Colors.orange,fontFamily: 'Kanit',
               fontWeight: FontWeight.bold,
               fontSize: 17,
             ),
@@ -249,7 +249,7 @@ class _caseattentiveshow extends State<caseattentiveshow> {
           Text(
             '${widget.caselevel}',
             style: TextStyle(
-              color: Colors.red,
+              color: Colors.red,fontFamily: 'Kanit',
               fontWeight: FontWeight.bold,
               fontSize: 17,
             ),

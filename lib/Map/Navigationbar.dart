@@ -53,8 +53,8 @@ class _NavigationbarState extends State<Navigationbar> {
         drawer: _drawer(),
         bottomNavigationBar: Theme(
           data: Theme.of(context).copyWith(
-              canvasColor: Colors.orangeAccent[200],
-              primaryColor: Colors.white,
+              canvasColor: Colors.green[900],
+              primaryColor: Colors.teal,
               textTheme: Theme.of(context)
                   .textTheme
                   .copyWith(caption: TextStyle(color: Colors.black))),
@@ -62,19 +62,19 @@ class _NavigationbarState extends State<Navigationbar> {
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(Icons.map),
-                title: Text('แผนที่'),
+                title: Text('แผนที่',style: TextStyle( fontFamily: 'Kanit'),),
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.add),
-                title: Text('แจ้งข่าว'),
+                title: Text('แจ้งข่าว',style: TextStyle( fontFamily: 'Kanit')),
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.new_releases),
-                title: Text('ข่าวใหม่'),
+                title: Text('ข่าวใหม่',style: TextStyle( fontFamily: 'Kanit')),
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.favorite),
-                title: Text('เคสที่สนใจ'),
+                title: Text('เคสที่สนใจ',style: TextStyle( fontFamily: 'Kanit')),
               ),
             ],
             currentIndex: _selectedIndex,
@@ -91,7 +91,7 @@ class _NavigationbarState extends State<Navigationbar> {
       child: Column(
         children: <Widget>[
           Opacity(
-            opacity: 0.75,
+            opacity: 1,
             child: Stack(children: <Widget>[
               Column(
                 children: <Widget>[
@@ -100,9 +100,8 @@ class _NavigationbarState extends State<Navigationbar> {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          Colors.orangeAccent,
-                          Colors.orangeAccent,
-                          Colors.orange
+                          Colors.green[900],
+                          Colors.green,
                         ],
                       ),
                     ),
@@ -111,14 +110,38 @@ class _NavigationbarState extends State<Navigationbar> {
               ),
               Row(
                 children: <Widget>[
+                  SizedBox(
+                    width: 20,
+                  ),
                   Image.asset(
-                    'images/logo.png',
-                    width: MediaQuery.of(context).size.width * 0.3,
+                    'images/logo2.png',
+                    width: MediaQuery.of(context).size.width * 0.2,
                     height: MediaQuery.of(context).size.height * 0.3,
                   ),
-                  Text(
-                    widget.user.email,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Center(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'เข้าสู่ระบบโดย :',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Kanit'),
+                        ),
+                        Text(
+                          widget.user.email,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Kanit'),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               )
@@ -127,67 +150,67 @@ class _NavigationbarState extends State<Navigationbar> {
           ListTile(
             leading: Icon(
               Icons.settings,
-              color: Colors.orangeAccent,
+              color: Colors.green[900],
             ),
-            title: Text("จัดการเคส"),
+            title: Text("จัดการเคส",style: TextStyle( fontFamily: 'Kanit')),
             onTap: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => casemanager()));
             },
-          ),
+          ),Divider(),
           ListTile(
             leading: Icon(
               Icons.favorite,
-              color: Colors.orangeAccent,
+              color: Colors.redAccent,
             ),
-            title: Text("เคสที่สนใจ"),
+            title: Text("เคสที่สนใจ",style: TextStyle( fontFamily: 'Kanit')),
             onTap: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => caseattentive()));
             },
-          ),
+          ),Divider(),
           ListTile(
             leading: Icon(
               Icons.new_releases,
-              color: Colors.orangeAccent,
+              color: Colors.yellow,
             ),
-            title: Text("ข่าวใหม่เคส"),
+            title: Text("ข่าวใหม่เคส",style: TextStyle( fontFamily: 'Kanit')),
             onTap: () {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => casenews()));
             },
-          ),
+          ),Divider(),
           ListTile(
             leading: Icon(
               Icons.add,
-              color: Colors.orangeAccent,
+              color: Colors.orange,
             ),
-            title: Text("แจ้งความรุนแรง"),
+            title: Text("แจ้งความรุนแรง",style: TextStyle( fontFamily: 'Kanit')),
             onTap: () {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => casadd()));
             },
-          ),
+          ),Divider(),
           ListTile(
               leading: Icon(
                 Icons.account_box,
-                color: Colors.orangeAccent,
+                color: Colors.teal,
               ),
-              title: Text("โปรไฟล์"),
+              title: Text("โปรไฟล์",style: TextStyle( fontFamily: 'Kanit')),
               onTap: () {
                 // Navigator.push(
                 //     context, MaterialPageRoute(builder: (context) => MyHomePage()));
-              }),
+              }),Divider(),
           ListTile(
             leading: Icon(
               Icons.exit_to_app,
-              color: Colors.orangeAccent,
+              color: Colors.red,
             ),
-            title: Text("ออกจากระบบ"),
+            title: Text("ออกจากระบบ",style: TextStyle( fontFamily: 'Kanit')),
             onTap: () {
               signOut(context);
             },
-          ),
+          ),Divider(),
         ],
       ),
     );

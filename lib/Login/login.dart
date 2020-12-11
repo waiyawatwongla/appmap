@@ -2,6 +2,7 @@ import 'package:appmap/Map/Navigationbar.dart';
 import 'package:appmap/Splash_Screen/CustomShapeClipper.dart';
 import 'package:appmap/user/hompageuser.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -68,7 +69,8 @@ class _LoginPageState extends State<LoginPage> {
             MaterialPageRoute(builder: (context) => Navigationbar(user)));
       } else if (value.data['role'] == 'user') {
         print('user');
-        Navigator.push(context, MaterialPageRoute(builder: (context) => homepageuser(user)));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => homepageuser(user)));
       }
     });
   }
@@ -83,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
             actions: <Widget>[
               FlatButton(
                   onPressed: () {
-                   Navigator.of(context).pop();
+                    Navigator.of(context).pop();
                   },
                   child: Text('ok'))
             ],
@@ -141,12 +143,12 @@ class _LoginPageState extends State<LoginPage> {
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
                 colors: [
-                  Colors.deepOrange,
-                  Colors.orangeAccent,
+                  Colors.teal[900],
+                  Colors.green[400],
                 ])),
         child: Text(
-          'Login',
-          style: TextStyle(fontSize: 20, color: Colors.white),
+          'เข้าสู่ระบบ',
+          style: TextStyle(fontSize: 20, color: Colors.white,fontFamily: 'Kanit',),
         ),
       ),
     );
@@ -186,43 +188,103 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _title() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Image.asset(
-          'images/logo.png',
-          width: 150,
+          'images/logo2.png',
+          width: 120,
           height: 100,
         ),
+        Column(
+          children: <Widget>[
+            SizedBox(
+              height: 25,
+            ),
+            Text(
+              'ยินดีต้อนรับเข้าสู่ ',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontFamily: 'Kanit',fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Text(
+              'แอปเฝ้าระวังความรุนแรง',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,fontFamily: 'Kanit',
+                  fontWeight: FontWeight.bold),
+            ),
+          ],
+        )
       ],
     );
   }
 
   Widget _emailPasswordWidget() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          'Email',
-          style: TextStyle(
-              color: Colors.deepOrange,
-              fontSize: 18,
-              fontWeight: FontWeight.w400),
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              'เข้าสู่ระบบ',
+              style: TextStyle(
+                  color: Colors.teal,
+                  fontSize: 36,fontFamily: 'Kanit',
+                  fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Text(
+              'อีเมล์',
+              style: TextStyle(
+                  color: Colors.teal,
+                  fontSize: 18,fontFamily: 'Kanit',
+                  fontWeight: FontWeight.w400),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            TextField(
+              controller: emailController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+              ),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Text('รหัสผ่าน',
+                style: TextStyle(
+                    color: Colors.teal,
+                    fontSize: 18,fontFamily: 'Kanit',
+                    fontWeight: FontWeight.w400)),
+            SizedBox(
+              height: 10,
+            ),
+            TextField(
+              controller: passwordController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+              ),
+              obscureText: true,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+          ],
         ),
-        TextField(
-          controller: emailController,
-        ),
-        SizedBox(
-          height: 30,
-        ),
-        Text('Password',
-            style: TextStyle(
-                color: Colors.deepOrange,
-                fontSize: 18,
-                fontWeight: FontWeight.w400)),
-        TextField(controller: passwordController,obscureText: true,),
-      ],
+      ),
     );
   }
 
@@ -230,14 +292,14 @@ class _LoginPageState extends State<LoginPage> {
     return Stack(
       children: <Widget>[
         Opacity(
-          opacity: 0.3,
+          opacity: 1,
           child: ClipPath(
             clipper: CustomShapeClipper2(),
             child: Container(
               height: _height / 1.2,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Colors.orange, Colors.orange, Colors.orangeAccent],
+                  colors: [Colors.green[900], Colors.green, ],
                 ),
               ),
             ),
@@ -267,12 +329,17 @@ class _LoginPageState extends State<LoginPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      SizedBox(height: height * .2),
+                      SizedBox(height: height * .1),
                       _title(),
                       SizedBox(height: 50),
                       _emailPasswordWidget(),
                       SizedBox(height: 20),
-                      _submitButton(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          _submitButton(),
+                        ],
+                      ),
                     ],
                   ),
                 ),

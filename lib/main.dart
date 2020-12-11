@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primaryColor: Colors.orangeAccent[200]),
+      theme: ThemeData(primaryColor: Colors.green[900]),
       routes: <String, WidgetBuilder>{
         MAIN_UI: (BuildContext context) => LoginPage(),
         SPLASH_SCREEN: (BuildContext context) => AnimatedSplashScreen(),

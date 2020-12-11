@@ -68,7 +68,7 @@ class SplashScreenState extends State<AnimatedSplashScreen>
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 Image.asset(
-                  'images/logo.png',
+                  'images/logo2.png',
                   width: animation.value * 200,
                   height: animation.value * 200,
                 ),
@@ -84,14 +84,14 @@ class SplashScreenState extends State<AnimatedSplashScreen>
     return Stack(
       children: <Widget>[
         Opacity(
-          opacity: 0.3,
+          opacity: 1,
           child: ClipPath(
             clipper: CustomShapeClipper2(),
             child: Container(
               height: _height / 1.45,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Colors.orange, Colors.orange, Colors.orangeAccent],
+                  colors: [Colors.green[900], Colors.green, ],
                 ),
               ),
             ),

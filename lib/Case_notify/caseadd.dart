@@ -76,8 +76,10 @@ class _casaddState extends State<casadd> {
             keyboardType: TextInputType.number,
             textInputAction: TextInputAction.next,
             decoration: InputDecoration(
-                labelText: 'lat', fillColor: Colors.white70,
-                filled: true,labelStyle: TextStyle(color: Colors.orangeAccent),
+                labelText: 'ละติจูด',
+                fillColor: Colors.white70,
+                filled: true,
+                labelStyle: TextStyle(color: Colors.teal),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                 )),
@@ -89,8 +91,10 @@ class _casaddState extends State<casadd> {
             controller: _longitudeController,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
-                labelText: 'lng',fillColor: Colors.white70,
-                filled: true,labelStyle: TextStyle(color: Colors.orangeAccent),
+                labelText: 'ลองจิจูด',
+                fillColor: Colors.white70,
+                filled: true,
+                labelStyle: TextStyle(color: Colors.teal),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                 )),
@@ -106,7 +110,7 @@ class _casaddState extends State<casadd> {
           },
           child: const Text(
             'หาพิกัดตำแหน่ง',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white,fontFamily: 'Kanit'),
           ),
         )
       ],
@@ -126,7 +130,10 @@ class _casaddState extends State<casadd> {
 
   Widget getlocation() {
     return FlatButton(
-      child: Text('พิกัดตำแหน่ง = ${locationsget}',style: TextStyle(color: Colors.black),),
+      child: Text(
+        'พิกัดตำแหน่ง = ${locationsget}',
+        style: TextStyle(color: Colors.white,fontFamily: 'Kanit'),
+      ),
     );
   }
 
@@ -178,7 +185,7 @@ class _casaddState extends State<casadd> {
       isExpanded: false,
       hint: Text(
         'เลือกระดับความรุนแรง',
-        style: TextStyle(color: Colors.black),
+        style: TextStyle(color: Colors.white,fontFamily: 'Kanit'),
       ),
     );
   }
@@ -253,7 +260,10 @@ class _casaddState extends State<casadd> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
-        camaraButton(),SizedBox(width: 10,),
+        camaraButton(),
+        SizedBox(
+          width: 10,
+        ),
         galleryButton(),
       ],
     );
@@ -264,7 +274,7 @@ class _casaddState extends State<casadd> {
       icon: Icon(
         Icons.add_a_photo,
         size: 45,
-        color: Colors.black,
+        color: Colors.white,
       ),
       onPressed: () {
         chooseImage(ImageSource.camera);
@@ -292,7 +302,7 @@ class _casaddState extends State<casadd> {
       icon: Icon(
         Icons.add_photo_alternate,
         size: 45,
-        color: Colors.black,
+        color: Colors.white,
       ),
       onPressed: () {
         chooseImage(ImageSource.gallery);
@@ -310,10 +320,12 @@ class _casaddState extends State<casadd> {
         decoration: InputDecoration(
             icon: Icon(
               Icons.account_box,
-              color: Colors.black,
+              color: Colors.white,
             ),
-            labelText: 'ชื่อเคส', fillColor: Colors.white70,
-          filled: true, labelStyle: TextStyle(color: Colors.orangeAccent)),
+            labelText: 'ชื่อเคส',
+            fillColor: Colors.white70,
+            filled: true,
+            labelStyle: TextStyle(color: Colors.teal,fontFamily: 'Kanit')),
       ),
     );
   }
@@ -321,17 +333,20 @@ class _casaddState extends State<casadd> {
   Widget Textdetail() {
     return Container(
       width: MediaQuery.of(context).size.width * 1,
-      child: TextField(  maxLines: 5,
+      child: TextField(
+        maxLines: 5,
         onChanged: (value) {
           detail = value.trim();
         },
         decoration: InputDecoration(
             icon: Icon(
               Icons.dvr,
-              color: Colors.black,
+              color: Colors.white,
             ),
-            labelText: 'สาเหตุ', fillColor: Colors.white70,
-          filled: true, labelStyle: TextStyle(color: Colors.orangeAccent)),
+            labelText: 'สาเหตุ',
+            fillColor: Colors.white70,
+            filled: true,
+            labelStyle: TextStyle(color: Colors.teal,fontFamily: 'Kanit')),
       ),
     );
   }
@@ -369,7 +384,7 @@ class _casaddState extends State<casadd> {
             ),
             label: Text(
               'Upload to Data',
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.white,fontFamily: 'Kanit'),
             ),
           ),
         ),
@@ -382,14 +397,14 @@ class _casaddState extends State<casadd> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text(title),
-            content: Text(message),
+            title: Text(title,style: TextStyle(   fontFamily: 'Kanit',)),
+            content: Text(message,style: TextStyle(   fontFamily: 'Kanit',)),
             actions: <Widget>[
               FlatButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text('ok'))
+                  child: Text('ok',style: TextStyle(   fontFamily: 'Kanit',)))
             ],
           );
         });
@@ -400,8 +415,8 @@ class _casaddState extends State<casadd> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text(title),
-            content: Text(message),
+            title: Text(title,style: TextStyle(   fontFamily: 'Kanit',)),
+            content: Text(message,style: TextStyle(   fontFamily: 'Kanit',),),
             actions: <Widget>[
               FlatButton(
                   onPressed: () {
@@ -410,7 +425,7 @@ class _casaddState extends State<casadd> {
                     Navigator.of(context)
                         .pushAndRemoveUntil(route, (value) => false);
                   },
-                  child: Text('ok'))
+                  child: Text('ok',style: TextStyle(   fontFamily: 'Kanit',),))
             ],
           );
         });
@@ -476,19 +491,24 @@ class _casaddState extends State<casadd> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.orange[200],
-        appBar: AppBar( automaticallyImplyLeading: false,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.green[900],
           title: Text(
             'เพิ่มเคสความรุนแรง',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white,   fontFamily: 'Kanit',),
           ),
         ),
         body: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    colors: [Colors.teal[900], Colors.green[800]])),
             padding: EdgeInsets.all(20),
             child: Stack(
               children: <Widget>[
                 showContent(),
-
               ],
             )),
       ),

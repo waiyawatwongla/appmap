@@ -75,11 +75,13 @@ class _MapsPageState extends State<MapsPage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar( automaticallyImplyLeading: false,
-          backgroundColor: Colors.orange[300],
+          backgroundColor: Colors.green[900],
           title: Text(
             'แผนที่แสดงเคสเฝ้าระวังความรุนแรง',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white,fontFamily: 'Kanit'),
           ),
+          // actions: <Widget>[IconButton(icon: Icon(Icons.list), onPressed: (){
+          // })],
         ),
         // drawer: _drawer(),
         body: Stack(

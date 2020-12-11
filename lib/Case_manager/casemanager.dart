@@ -64,22 +64,14 @@ class _casemanagerState extends State<casemanager> {
                     ),
                     Text(
                       'จำนวนเคสที่แจ้ง',
-                      style: GoogleFonts.openSans(
-                          textStyle: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600)),
+                        style: TextStyle(fontFamily: 'Kanit',)
                     ),
                     SizedBox(
                       height: 10,
                     ),
                     Text(
                       '${snapshot.data.documents.length}',
-                      style: GoogleFonts.openSans(
-                          textStyle: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600)),
+                        style: TextStyle(fontFamily: 'Kanit',)
                     ),
                   ],
                 ),
@@ -117,160 +109,150 @@ class _casemanagerState extends State<casemanager> {
                 })
           ],
         ),
-        backgroundColor: Colors.orange[200],
-        body: StreamBuilder(
-          stream: Firestore.instance.collection("Caseinterested").snapshots(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return Center(
-                child: Column(
+        body: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [Colors.teal[900], Colors.green[800]])),
+          child: StreamBuilder(
+            stream: Firestore.instance.collection("Caseinterested").snapshots(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Center(
+                  child: Column(
+                    children: <Widget>[
+                      CircularProgressIndicator(),
+                      Text("Loading . . . "),
+                    ],
+                  ),
+                );
+              } else {
+                return GridView.count(
+                  primary: false,
+                  padding: EdgeInsets.all(30),
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  crossAxisCount: 2,
+                  childAspectRatio: 1.0,
                   children: <Widget>[
-                    CircularProgressIndicator(),
-                    Text("Loading . . . "),
-                  ],
-                ),
-              );
-            } else {
-              return GridView.count(
-                primary: false,
-                padding: EdgeInsets.all(30),
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                crossAxisCount: 2,
-                childAspectRatio: 1.0,
-                children: <Widget>[
-                  casenotifytext(),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => casemanagerattentive()));
-                    },
-                    child: Card(
-                      shape: RoundedRectangleBorder(
+                    casenotifytext(),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => casemanagerattentive()));
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: const BorderRadius.all(
+                          Radius.circular(8.0),
+                        )),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Image.asset(
+                              'images/heart.png',
+                              width: 42,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              'จำนวนเคสที่สนใจ',
+                                style: TextStyle(fontFamily: 'Kanit',)
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              '${snapshot.data.documents.length}',
+                                style: TextStyle(fontFamily: 'Kanit',)
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {},
+                      child: Card(
+                        shape: RoundedRectangleBorder(
                           borderRadius: const BorderRadius.all(
-                        Radius.circular(8.0),
-                      )),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Image.asset(
-                            'images/heart.png',
-                            width: 42,
+                            Radius.circular(8.0),
                           ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            'จำนวนเคสที่สนใจ',
-                            style: GoogleFonts.openSans(
-                                textStyle: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600)),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            '${snapshot.data.documents.length}',
-                            style: GoogleFonts.openSans(
-                                textStyle: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600)),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(8.0),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Image.asset(
+                              'images/magnifying-glass.png',
+                              width: 42,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              'ค้นหาเคส',
+                              style: TextStyle(fontFamily: 'Kanit',)
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            // Text(
+                            //   '${test1 + test2}',
+                            //   style: GoogleFonts.openSans(
+                            //       textStyle: TextStyle(
+                            //           color: Colors.black,
+                            //           fontSize: 14,
+                            //           fontWeight: FontWeight.w600)),
+                            // )
+                          ],
                         ),
                       ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Image.asset(
-                            'images/magnifying-glass.png',
-                            width: 42,
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            'ค้นหาเคส',
-                            style: GoogleFonts.openSans(
-                                textStyle: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600)),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          // Text(
-                          //   '${test1 + test2}',
-                          //   style: GoogleFonts.openSans(
-                          //       textStyle: TextStyle(
-                          //           color: Colors.black,
-                          //           fontSize: 14,
-                          //           fontWeight: FontWeight.w600)),
-                          // )
-                        ],
-                      ),
                     ),
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(8.0),
+                    InkWell(
+                      onTap: () {},
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(8.0),
+                          ),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Image.asset(
+                              'images/man.png',
+                              width: 42,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              'โปรไฟล์',
+                                style: TextStyle(fontFamily: 'Kanit',)
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            // Text(
+                            //   '${test1 + test2}',
+                            //   style: GoogleFonts.openSans(
+                            //       textStyle: TextStyle(
+                            //           color: Colors.black,
+                            //           fontSize: 14,
+                            //           fontWeight: FontWeight.w600)),
+                            // )
+                          ],
                         ),
                       ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Image.asset(
-                            'images/man.png',
-                            width: 42,
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            'โปรไฟล์',
-                            style: GoogleFonts.openSans(
-                                textStyle: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600)),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          // Text(
-                          //   '${test1 + test2}',
-                          //   style: GoogleFonts.openSans(
-                          //       textStyle: TextStyle(
-                          //           color: Colors.black,
-                          //           fontSize: 14,
-                          //           fontWeight: FontWeight.w600)),
-                          // )
-                        ],
-                      ),
                     ),
-                  ),
-                ],
-              );
-            }
-          },
+                  ],
+                );
+              }
+            },
+          ),
         ),
       ),
     );

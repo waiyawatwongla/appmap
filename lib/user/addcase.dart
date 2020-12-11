@@ -66,7 +66,7 @@ class _addcase extends State<addcase> {
     var first = addresses.first;
     Firestore.instance.collection('CaseNotify').add({
       'latlng':
-      GeoPoint(first.coordinates.latitude, first.coordinates.longitude)
+          GeoPoint(first.coordinates.latitude, first.coordinates.longitude)
     });
   }
 
@@ -81,8 +81,10 @@ class _addcase extends State<addcase> {
             keyboardType: TextInputType.number,
             textInputAction: TextInputAction.next,
             decoration: InputDecoration(
-                labelText: 'lat', fillColor: Colors.white70,
-                filled: true,labelStyle: TextStyle(color: Colors.orangeAccent),
+                labelText: 'ละติจูด',
+                fillColor: Colors.white70,
+                filled: true,
+                labelStyle: TextStyle(color: Colors.teal,fontFamily: 'Kanit',),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                 )),
@@ -94,8 +96,10 @@ class _addcase extends State<addcase> {
             controller: _longitudeController,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
-                labelText: 'lng',fillColor: Colors.white70,
-                filled: true,labelStyle: TextStyle(color: Colors.orangeAccent),
+                labelText: 'ลองจิจูด',
+                fillColor: Colors.white70,
+                filled: true,
+                labelStyle: TextStyle(color: Colors.teal, fontFamily: 'Kanit',),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                 )),
@@ -111,7 +115,7 @@ class _addcase extends State<addcase> {
           },
           child: const Text(
             'หาพิกัดตำแหน่ง',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white, fontFamily: 'Kanit',),
           ),
         )
       ],
@@ -131,7 +135,10 @@ class _addcase extends State<addcase> {
 
   Widget getlocation() {
     return FlatButton(
-      child: Text('พิกัดตำแหน่ง = ${locationsget}',style: TextStyle(color: Colors.black),),
+      child: Text(
+        'พิกัดตำแหน่ง = ${locationsget}',
+        style: TextStyle(color: Colors.white,fontFamily: 'Kanit',),
+      ),
     );
   }
 
@@ -169,9 +176,9 @@ class _addcase extends State<addcase> {
     return DropdownButton(
       items: _accountType
           .map((value) => DropdownMenuItem(
-        child: Text(value),
-        value: value,
-      ))
+                child: Text(value),
+                value: value,
+              ))
           .toList(),
       onChanged: (selectedAccountType) {
         print('$selectedAccountType');
@@ -183,7 +190,7 @@ class _addcase extends State<addcase> {
       isExpanded: false,
       hint: Text(
         'เลือกระดับความรุนแรง',
-        style: TextStyle(color: Colors.black),
+        style: TextStyle(color: Colors.white, fontFamily: 'Kanit',),
       ),
     );
   }
@@ -244,13 +251,13 @@ class _addcase extends State<addcase> {
       height: MediaQuery.of(context).size.height * 0.3,
       child: file == null
           ? Image.asset(
-        'images/photo.png',
-        fit: BoxFit.cover,
-      )
+              'images/photo.png',
+              fit: BoxFit.cover,
+            )
           : Image.file(
-        file,
-        fit: BoxFit.cover,
-      ),
+              file,
+              fit: BoxFit.cover,
+            ),
     );
   }
 
@@ -258,7 +265,10 @@ class _addcase extends State<addcase> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
-        camaraButton(),SizedBox(width: 10,),
+        camaraButton(),
+        SizedBox(
+          width: 10,
+        ),
         galleryButton(),
       ],
     );
@@ -269,7 +279,7 @@ class _addcase extends State<addcase> {
       icon: Icon(
         Icons.add_a_photo,
         size: 45,
-        color: Colors.black,
+        color: Colors.white,
       ),
       onPressed: () {
         chooseImage(ImageSource.camera);
@@ -297,7 +307,7 @@ class _addcase extends State<addcase> {
       icon: Icon(
         Icons.add_photo_alternate,
         size: 45,
-        color: Colors.black,
+        color: Colors.white,
       ),
       onPressed: () {
         chooseImage(ImageSource.gallery);
@@ -315,10 +325,12 @@ class _addcase extends State<addcase> {
         decoration: InputDecoration(
             icon: Icon(
               Icons.account_box,
-              color: Colors.black,
+              color: Colors.white,
             ),
-            labelText: 'ชื่อเคส', fillColor: Colors.white70,
-            filled: true, labelStyle: TextStyle(color: Colors.orangeAccent)),
+            labelText: 'ชื่อเคส',
+            fillColor: Colors.white70,
+            filled: true,
+            labelStyle: TextStyle(color: Colors.teal, fontFamily: 'Kanit',)),
       ),
     );
   }
@@ -326,17 +338,20 @@ class _addcase extends State<addcase> {
   Widget Textdetail() {
     return Container(
       width: MediaQuery.of(context).size.width * 1,
-      child: TextField(  maxLines: 5,
+      child: TextField(
+        maxLines: 5,
         onChanged: (value) {
           detail = value.trim();
         },
         decoration: InputDecoration(
             icon: Icon(
               Icons.dvr,
-              color: Colors.black,
+              color: Colors.white,
             ),
-            labelText: 'สาเหตุ', fillColor: Colors.white70,
-            filled: true, labelStyle: TextStyle(color: Colors.orangeAccent)),
+            labelText: 'สาเหตุ',
+            fillColor: Colors.white70,
+            filled: true,
+            labelStyle: TextStyle(color: Colors.teal, fontFamily: 'Kanit',)),
       ),
     );
   }
@@ -374,7 +389,7 @@ class _addcase extends State<addcase> {
             ),
             label: Text(
               'Upload to Data',
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.white, fontFamily: 'Kanit',),
             ),
           ),
         ),
@@ -387,14 +402,14 @@ class _addcase extends State<addcase> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text(title),
-            content: Text(message),
+            title: Text(title,style: TextStyle(fontFamily: 'Kanit',),),
+            content: Text(message,style: TextStyle(fontFamily: 'Kanit',),),
             actions: <Widget>[
               FlatButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text('ok'))
+                  child: Text('ok',style: TextStyle(fontFamily: 'Kanit',),))
             ],
           );
         });
@@ -405,14 +420,14 @@ class _addcase extends State<addcase> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text(title),
-            content: Text(message),
+            title: Text(title,style: TextStyle(fontFamily: 'Kanit',)),
+            content: Text(message,style: TextStyle(fontFamily: 'Kanit',)),
             actions: <Widget>[
               FlatButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text('ok'))
+                  child: Text('ok',style: TextStyle(fontFamily: 'Kanit',)))
             ],
           );
         });
@@ -424,7 +439,7 @@ class _addcase extends State<addcase> {
 
     FirebaseStorage firebaseStorage = FirebaseStorage.instance;
     StorageReference storageReference =
-    firebaseStorage.ref().child('CaseImage/case$i.jpg');
+        firebaseStorage.ref().child('CaseImage/case$i.jpg');
     StorageUploadTask storageUploadTask = storageReference.putFile(file);
     urlimage = await (await storageUploadTask.onComplete).ref.getDownloadURL();
     InsertvaluetofiresStrage(double.parse(_latitudeController.text),
@@ -471,7 +486,6 @@ class _addcase extends State<addcase> {
       'urlimage': urlimage,
       'level': selectedType,
       'position': geoFirePoint.data
-
     }).then((_) {
       print('added ${geoFirePoint.hash} successfully');
     });
@@ -481,19 +495,25 @@ class _addcase extends State<addcase> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.orange[200],
         appBar: AppBar(
           title: Text(
             'เพิ่มเคสความรุนแรง',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'Kanit',
+            ),
           ),
         ),
         body: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    colors: [Colors.teal[900], Colors.green[800]])),
             padding: EdgeInsets.all(20),
             child: Stack(
               children: <Widget>[
                 showContent(),
-
               ],
             )),
       ),

@@ -50,10 +50,10 @@ class _ItemPageState extends State<ItemPage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
+        appBar: AppBar(   backgroundColor: Colors.green[900],
           title: Text(
             widget.casename,
-            style: TextStyle(fontSize: 18),
+            style: TextStyle(fontSize: 18,    fontFamily: 'Kanit',),
           ),
           leading: IconButton(
             icon: Icon(
@@ -90,7 +90,7 @@ class _ItemPageState extends State<ItemPage> {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         widget.casename,
-                        style: TextStyle(
+                        style: TextStyle(    fontFamily: 'Kanit',
                           fontWeight: FontWeight.w700,
                           fontSize: 32,
                         ),
@@ -112,7 +112,7 @@ class _ItemPageState extends State<ItemPage> {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         '081234975319',
-                        style: TextStyle(
+                        style: TextStyle(    fontFamily: 'Kanit',
                           fontWeight: FontWeight.bold,
                           fontSize: 13,
                           color: Colors.blueGrey[300],
@@ -133,7 +133,7 @@ class _ItemPageState extends State<ItemPage> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "รายละเอียด",
-                    style: TextStyle(
+                    style: TextStyle(    fontFamily: 'Kanit',
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
@@ -146,7 +146,7 @@ class _ItemPageState extends State<ItemPage> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     widget.casedetail,
-                    style: TextStyle(
+                    style: TextStyle(    fontFamily: 'Kanit',
                       fontWeight: FontWeight.normal,
                       fontSize: 15.0,
                     ),
@@ -158,7 +158,7 @@ class _ItemPageState extends State<ItemPage> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "แจ้งข่าวโดย",
-                    style: TextStyle(
+                    style: TextStyle(    fontFamily: 'Kanit',
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
@@ -170,7 +170,7 @@ class _ItemPageState extends State<ItemPage> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     widget.caseby,
-                    style: TextStyle(
+                    style: TextStyle(    fontFamily: 'Kanit',
                       fontWeight: FontWeight.normal,
                       fontSize: 15.0,
                     ),
@@ -182,7 +182,7 @@ class _ItemPageState extends State<ItemPage> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "แผนที่ตั้ง",
-                    style: TextStyle(
+                    style: TextStyle(    fontFamily: 'Kanit',
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
@@ -229,7 +229,7 @@ class _ItemPageState extends State<ItemPage> {
           Text(
             '${widget.caselevel}',
             style: TextStyle(
-              color: Colors.green,
+              color: Colors.green,    fontFamily: 'Kanit',
               fontWeight: FontWeight.bold,
               fontSize: 17,
             ),
@@ -248,7 +248,7 @@ class _ItemPageState extends State<ItemPage> {
           Text(
             '${widget.caselevel}',
             style: TextStyle(
-              color: Colors.yellow,
+              color: Colors.yellow,    fontFamily: 'Kanit',
               fontWeight: FontWeight.bold,
               fontSize: 17,
             ),
@@ -267,7 +267,7 @@ class _ItemPageState extends State<ItemPage> {
           Text(
             '${widget.caselevel}',
             style: TextStyle(
-              color: Colors.orange,
+              color: Colors.orange,    fontFamily: 'Kanit',
               fontWeight: FontWeight.bold,
               fontSize: 17,
             ),
@@ -286,7 +286,7 @@ class _ItemPageState extends State<ItemPage> {
           Text(
             '${widget.caselevel}',
             style: TextStyle(
-              color: Colors.red,
+              color: Colors.red,    fontFamily: 'Kanit',
               fontWeight: FontWeight.bold,
               fontSize: 17,
             ),
@@ -349,14 +349,14 @@ class _ItemPageState extends State<ItemPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text(title),
-            content: Text(message),
+            title: Text(title,style: TextStyle(    fontFamily: 'Kanit',)),
+            content: Text(message,style: TextStyle(    fontFamily: 'Kanit',)),
             actions: <Widget>[
               FlatButton(
                   onPressed: () {
                    Navigator.pop(context);
                   },
-                  child: Text('ok'))
+                  child: Text('ok',style: TextStyle(    fontFamily: 'Kanit',),))
             ],
           );
         });

@@ -1,8 +1,8 @@
-
 import 'package:appmap/Login/login.dart';
 import 'package:appmap/user/addcase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'detailcase.dart';
@@ -24,180 +24,205 @@ class _homepageuserState extends State<homepageuser> {
     return SafeArea(
       child: Scaffold(
         drawer: _drawer(),
-        appBar: AppBar( automaticallyImplyLeading: true,
-          backgroundColor: Colors.white10,
+        appBar: AppBar(
+          automaticallyImplyLeading: true,
+          backgroundColor: Colors.green[900],
         ),
-        backgroundColor: Colors.orangeAccent,
-        body: ListView(
-          padding: EdgeInsets.all(0),
-          children: <Widget>[
-            StreamBuilder<QuerySnapshot>(
-                stream: Firestore.instance.collection('CaseNotify').snapshots(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Column(
-                      children: snapshot.data.documents.map((doc) {
-                        testdata() {
-                          if (doc.data['level'] == 'ระดับความรุนแรง ปลอดภัย') {
-                            return Row(
-                              children: <Widget>[
-                                Text(
-                                  '${doc.data['level']}',
-                                  style: TextStyle(
+        body: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [Colors.teal[900], Colors.green[800]])),
+          child: ListView(
+            padding: EdgeInsets.all(15),
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Text(
+                    'เคสการแจ้งทั้งหมด',
+                    style: TextStyle(
+                        fontFamily: 'Kanit', color: Colors.white, fontSize: 20),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              StreamBuilder<QuerySnapshot>(
+                  stream:
+                      Firestore.instance.collection('CaseNotify').snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Column(
+                        children: snapshot.data.documents.map((doc) {
+                          testdata() {
+                            if (doc.data['level'] ==
+                                'ระดับความรุนแรง ปลอดภัย') {
+                              return Row(
+                                children: <Widget>[
+                                  Text(
+                                    '${doc.data['level']}',
+                                    style: TextStyle(
+                                      color: Colors.green,fontFamily: 'Kanit',
+                                      fontSize: 12,
+                                    ),
+                                    maxLines: 1,
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  Icon(
+                                    (Icons.mood),
                                     color: Colors.green,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12,
+                                  )
+                                ],
+                              );
+                            } else if (doc.data['level'] ==
+                                'ระดับความรุนแรง น้อย') {
+                              return Row(
+                                children: <Widget>[
+                                  Text(
+                                    '${doc.data['level']}',
+                                    style: TextStyle(
+                                      color: Colors.yellow,fontFamily: 'Kanit',
+                                      fontSize: 12,
+                                    ),
+                                    maxLines: 1,
+                                    textAlign: TextAlign.left,
                                   ),
-                                  maxLines: 1,
-                                  textAlign: TextAlign.left,
-                                ),
-                                Icon(
-                                  (Icons.mood),
-                                  color: Colors.green,
-                                )
-                              ],
-                            );
-                          } else if (doc.data['level'] ==
-                              'ระดับความรุนแรง น้อย') {
-                            return Row(
-                              children: <Widget>[
-                                Text(
-                                  '${doc.data['level']}',
-                                  style: TextStyle(
+                                  Icon(
+                                    (Icons.sentiment_neutral),
                                     color: Colors.yellow,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12,
+                                  )
+                                ],
+                              );
+                            } else if (doc.data['level'] ==
+                                'ระดับความรุนแรง มาก') {
+                              return Row(
+                                children: <Widget>[
+                                  Text(
+                                    '${doc.data['level']}',
+                                    style: TextStyle(
+                                        color: Colors.orange,fontFamily: 'Kanit',
+                                        fontSize: 12),
+                                    maxLines: 1,
+                                    textAlign: TextAlign.left,
                                   ),
-                                  maxLines: 1,
-                                  textAlign: TextAlign.left,
-                                ),
-                                Icon(
-                                  (Icons.sentiment_neutral),
-                                  color: Colors.yellow,
-                                )
-                              ],
-                            );
-                          } else if (doc.data['level'] ==
-                              'ระดับความรุนแรง มาก') {
-                            return Row(
-                              children: <Widget>[
-                                Text(
-                                  '${doc.data['level']}',
-                                  style: TextStyle(
-                                      color: Colors.orange,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12),
-                                  maxLines: 1,
-                                  textAlign: TextAlign.left,
-                                ),
-                                Icon(
-                                  (Icons.sentiment_dissatisfied),
-                                  color: Colors.orange,
-                                )
-                              ],
-                            );
-                          } else if (doc.data['level'] ==
-                              'ระดับความรุนแรง มากที่สุด') {
-                            return Row(
-                              children: <Widget>[
-                                Text(
-                                  '${doc.data['level']}',
-                                  style: TextStyle(
+                                  Icon(
+                                    (Icons.sentiment_dissatisfied),
+                                    color: Colors.orange,
+                                  )
+                                ],
+                              );
+                            } else if (doc.data['level'] ==
+                                'ระดับความรุนแรง มากที่สุด') {
+                              return Row(
+                                children: <Widget>[
+                                  Text(
+                                    '${doc.data['level']}',
+                                    style: TextStyle(
+                                      color: Colors.red,fontFamily: 'Kanit',
+                                      fontSize: 12,
+                                    ),
+                                    maxLines: 1,
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  Icon(
+                                    (Icons.mood_bad),
                                     color: Colors.red,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12,
-                                  ),
-                                  maxLines: 1,
-                                  textAlign: TextAlign.left,
-                                ),
-                                Icon(
-                                  (Icons.mood_bad),
-                                  color: Colors.red,
-                                )
-                              ],
-                            );
+                                  )
+                                ],
+                              );
+                            }
                           }
-                        }
 
-                        return InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => detailcase(
-                                  casename: doc.data["name"],
-                                  casedetail: doc.data["detail"],
-                                  caseimage: doc.data["urlimage"],
-                                  caselevel: doc.data["level"],
-                                  caseby: doc.data['notifyby'],
-                                  date: doc.data['date'],
-                                  casemap: doc.data["position"]['geopoint'],
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => detailcase(
+                                    casename: doc.data["name"],
+                                    casedetail: doc.data["detail"],
+                                    caseimage: doc.data["urlimage"],
+                                    caselevel: doc.data["level"],
+                                    caseby: doc.data['notifyby'],
+                                    date: doc.data['date'],
+                                    casemap: doc.data["position"]['geopoint'],
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 5.0, vertical: 0.0),
-                            child: Card(
-                              color: Colors.white,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.grey),
-                                  borderRadius: BorderRadius.circular(5.0),
-                                ),
-                                child: Row(
-                                  children: <Widget>[
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(5),
-                                      child: doc.data['urlimage'] == null
-                                          ? Image.asset(
-                                        'images/photo.png',
-                                        height: 70.0,
-                                        width: 70.0,
-                                        fit: BoxFit.cover,
-                                      )
-                                          : Image.network(
-                                        '${doc.data['urlimage']}',
-                                        height: 70.0,
-                                        width: 70.0,
-                                        fit: BoxFit.cover,
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 5.0, vertical: 0.0),
+                              child: Card(
+                                color: Colors.white,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(5.0),
+                                  ),
+                                  child: Row(
+                                    children: <Widget>[
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(5),
+                                        child: doc.data['urlimage'] == null
+                                            ? Image.asset(
+                                                'images/photo.png',
+                                                height: 70.0,
+                                                width: 70.0,
+                                                fit: BoxFit.cover,
+                                              )
+                                            : Image.network(
+                                                '${doc.data['urlimage']}',
+                                                height: 70.0,
+                                                width: 70.0,
+                                                fit: BoxFit.cover,
+                                              ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Container(
-                                      width: 180,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            '${doc.data['name']}',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 15.0,
+                                      SizedBox(
+                                        width: 20,
+                                      ),
+                                      Container(
+                                        width: 180,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Text(
+                                              '${doc.data['name']}',
+                                              style: TextStyle(fontFamily: 'Kanit',
+                                                fontSize: 15.0,
+                                              ),
                                             ),
-                                          ),
-                                          testdata(),
-                                        ],
+                                            testdata(),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        );
-                      }).toList(),
-                    );
-                  } else {
-                    return SizedBox();
-                  }
-                }),
-          ],
+                          );
+                        }).toList(),
+                      );
+                    } else {
+                      return SizedBox();
+                    }
+                  }),
+            ],
+          ),
+        ),        floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.orange,
+        child: Icon(
+          Icons.add,
         ),
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => addcase(user: widget.user)));
+        },
+      ),
       ),
     );
   }
@@ -207,7 +232,7 @@ class _homepageuserState extends State<homepageuser> {
       child: Column(
         children: <Widget>[
           Opacity(
-            opacity: 0.75,
+            opacity: 1,
             child: Stack(children: <Widget>[
               Column(
                 children: <Widget>[
@@ -216,9 +241,8 @@ class _homepageuserState extends State<homepageuser> {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          Colors.orangeAccent,
-                          Colors.orangeAccent,
-                          Colors.orange
+                          Colors.green[900],
+                          Colors.green,
                         ],
                       ),
                     ),
@@ -227,14 +251,39 @@ class _homepageuserState extends State<homepageuser> {
               ),
               Row(
                 children: <Widget>[
+                  SizedBox(
+                    width: 20,
+                  ),
                   Image.asset(
-                    'images/logo.png',
-                    width: MediaQuery.of(context).size.width * 0.3,
+                    'images/logo2.png',
+                    width: MediaQuery.of(context).size.width * 0.2,
                     height: MediaQuery.of(context).size.height * 0.3,
                   ),
-                  Text(
-                    widget.user.email,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Center(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'เข้าสู่ระบบโดย :',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Kanit'),
+                        ),
+                        Text(
+                          widget.user.email,
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Kanit'),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               )
@@ -243,21 +292,29 @@ class _homepageuserState extends State<homepageuser> {
           ListTile(
             leading: Icon(
               Icons.add,
-              color: Colors.orangeAccent,
+              color: Colors.orange,
             ),
-            title: Text("แจ้งความรุนแรง"),
+            title: Text(
+              "แจ้งความรุนแรง",
+              style: TextStyle(fontFamily: 'Kanit'),
+            ),
             onTap: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => addcase(user: widget.user)));
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => addcase(user: widget.user)));
             },
           ),
           Divider(),
           ListTile(
               leading: Icon(
                 Icons.account_box,
-                color: Colors.orangeAccent,
+                color: Colors.teal,
               ),
-              title: Text("โปรไฟล์"),
+              title: Text(
+                "โปรไฟล์",
+                style: TextStyle(fontFamily: 'Kanit'),
+              ),
               onTap: () {
                 // Navigator.push(
                 //     context, MaterialPageRoute(builder: (context) => MyHomePage()));
@@ -266,9 +323,12 @@ class _homepageuserState extends State<homepageuser> {
           ListTile(
             leading: Icon(
               Icons.exit_to_app,
-              color: Colors.orangeAccent,
+              color: Colors.red,
             ),
-            title: Text("ออกจากระบบ"),
+            title: Text(
+              "ออกจากระบบ",
+              style: TextStyle(fontFamily: 'Kanit'),
+            ),
             onTap: () {
               signOut(context);
             },
