@@ -3,7 +3,9 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:appmap/Case_news/casenews.dart';
+import 'package:appmap/show/shownew.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +16,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
 class casadd extends StatefulWidget {
+  final FirebaseUser user;
+
+  casadd({this.user});
+
   @override
   _casaddState createState() => _casaddState();
 }
@@ -21,7 +27,7 @@ class casadd extends StatefulWidget {
 class _casaddState extends State<casadd> {
   //Fleld
   var locationsget;
-  var selectedCurrency, selectedType;
+  var selectedCurrency, selectedType , tumbon;
   File file;
   String name, detail, urlimage, level;
   TextEditingController _latitudeController, _longitudeController;
@@ -53,6 +59,12 @@ class _casaddState extends State<casadd> {
     'ระดับความรุนแรง น้อย',
     'ระดับความรุนแรง มาก',
     'ระดับความรุนแรง มากที่สุด',
+  ];
+
+  List<String> _tumbon = <String>[
+    'แม่สอด',
+    'ท่าสายลวด',
+    'มหาวัน',
   ];
 
   addtolist() async {
@@ -171,7 +183,7 @@ class _casaddState extends State<casadd> {
     return DropdownButton(
       items: _accountType
           .map((value) => DropdownMenuItem(
-                child: Text(value),
+                child: Text(value,style: TextStyle(fontFamily: 'Kanit')),
                 value: value,
               ))
           .toList(),
@@ -185,6 +197,29 @@ class _casaddState extends State<casadd> {
       isExpanded: false,
       hint: Text(
         'เลือกระดับความรุนแรง',
+        style: TextStyle(color: Colors.white,fontFamily: 'Kanit'),
+      ),
+    );
+  }
+
+  Widget Radiobutton_tumbon() {
+    return DropdownButton(
+      items: _tumbon
+          .map((value) => DropdownMenuItem(
+        child: Text(value,style: TextStyle(fontFamily: 'Kanit'),),
+        value: value,
+      ))
+          .toList(),
+      onChanged: (selectedtubonType) {
+        print('$selectedtubonType');
+        setState(() {
+          tumbon = selectedtubonType;
+        });
+      },
+      value: tumbon,
+      isExpanded: false,
+      hint: Text(
+        'เลือกเขตพื้นที่',
         style: TextStyle(color: Colors.white,fontFamily: 'Kanit'),
       ),
     );
@@ -215,6 +250,14 @@ class _casaddState extends State<casadd> {
                 width: 40,
               ),
               Radiobutton(),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              SizedBox(
+                width: 40,
+              ),
+              Radiobutton_tumbon(),
             ],
           ),
           Row(
@@ -369,7 +412,7 @@ class _casaddState extends State<casadd> {
                   name.isEmpty ||
                   detail == null ||
                   detail.isEmpty ||
-                  selectedType == null ||
+                  selectedType == null || tumbon == null ||
                   _longitudeController == null ||
                   _latitudeController == null) {
                 showAlert('ล้มเหลว', 'กรุณากรอกทุกช่อง');
@@ -420,10 +463,7 @@ class _casaddState extends State<casadd> {
             actions: <Widget>[
               FlatButton(
                   onPressed: () {
-                    MaterialPageRoute route =
-                        MaterialPageRoute(builder: (value) => casenews());
-                    Navigator.of(context)
-                        .pushAndRemoveUntil(route, (value) => false);
+                    Navigator.pop(context);
                   },
                   child: Text('ok',style: TextStyle(   fontFamily: 'Kanit',),))
             ],
@@ -453,6 +493,8 @@ class _casaddState extends State<casadd> {
       'detail': detail,
       'urlimage': urlimage,
       'level': selectedType,
+      'district': tumbon,
+      // 'notifyby' : widget.user.email,
       'position': geoFirePoint.data,
     }).then((_) {
       print('added ${geoFirePoint.hash} successfully');
@@ -467,32 +509,20 @@ class _casaddState extends State<casadd> {
       'detail': detail,
       'urlimage': urlimage,
       'level': selectedType,
+      'district': tumbon,
+      // 'notifyby' : widget.user.email,
       'position': geoFirePoint.data,
     }).then((_) {
       print('added ${geoFirePoint.hash} successfully');
     });
   }
 
-  void _addPoint(double lat, double lng) {
-    GeoFirePoint geoFirePoint = geo.point(latitude: lat, longitude: lng);
-    String geoFirePoint2 = '${geoFirePoint.toString()}';
-    _firestore.collection('locations').add({
-      'name': name,
-      'detail': detail,
-      'urlimage': urlimage,
-      'level': selectedType,
-      'position': geoFirePoint.data
-    }).then((_) {
-      print('added ${geoFirePoint.hash} successfully');
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: false,
           backgroundColor: Colors.green[900],
           title: Text(
             'เพิ่มเคสความรุนแรง',

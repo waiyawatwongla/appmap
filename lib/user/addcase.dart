@@ -26,7 +26,7 @@ class addcase extends StatefulWidget {
 class _addcase extends State<addcase> {
   //Fleld
   var locationsget;
-  var selectedCurrency, selectedType;
+  var selectedCurrency, selectedType,tumbon;
   File file;
   String name, detail, urlimage, level;
   TextEditingController _latitudeController, _longitudeController;
@@ -59,6 +59,37 @@ class _addcase extends State<addcase> {
     'ระดับความรุนแรง มาก',
     'ระดับความรุนแรง มากที่สุด',
   ];
+
+
+  List<String> _tumbon = <String>[
+    'แม่สอด',
+    'ท่าสายลวด',
+    'มหาวัน',
+  ];
+
+
+  Widget Radiobutton_tumbon() {
+    return DropdownButton(
+      items: _tumbon
+          .map((value) => DropdownMenuItem(
+        child: Text(value,style: TextStyle(fontFamily: 'Kanit'),),
+        value: value,
+      ))
+          .toList(),
+      onChanged: (selectedtubonType) {
+        print('$selectedtubonType');
+        setState(() {
+          tumbon = selectedtubonType;
+        });
+      },
+      value: tumbon,
+      isExpanded: false,
+      hint: Text(
+        'เลือกเขตพื้นที่',
+        style: TextStyle(color: Colors.white,fontFamily: 'Kanit'),
+      ),
+    );
+  }
 
   addtolist() async {
     final query = inputtaddr;
@@ -220,6 +251,14 @@ class _addcase extends State<addcase> {
                 width: 40,
               ),
               Radiobutton(),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              SizedBox(
+                width: 40,
+              ),
+              Radiobutton_tumbon(),
             ],
           ),
           Row(
@@ -471,6 +510,7 @@ class _addcase extends State<addcase> {
       'urlimage': urlimage,
       'level': selectedType,
       'position': geoFirePoint.data,
+      'district': tumbon,
       'notifyby': widget.user.email,
     }).then((_) {
       print('added ${geoFirePoint.hash} successfully');
@@ -485,6 +525,7 @@ class _addcase extends State<addcase> {
       'detail': detail,
       'urlimage': urlimage,
       'level': selectedType,
+      'district': tumbon,
       'position': geoFirePoint.data
     }).then((_) {
       print('added ${geoFirePoint.hash} successfully');

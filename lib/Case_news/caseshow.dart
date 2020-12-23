@@ -10,7 +10,7 @@ class ItemPage extends StatefulWidget {
   final String casedetail;
   final String caseimage;
   final String caselevel;
-  final String caseby;
+  final String casearea;
   final GeoPoint casemap;
 
   ItemPage({
@@ -19,7 +19,7 @@ class ItemPage extends StatefulWidget {
     @required this.casedetail,
     @required this.caseimage,
     @required this.caselevel,
-    @required this.caseby,
+    @required this.casearea,
     @required this.casemap,
   }) : super(key: key);
 
@@ -92,7 +92,7 @@ class _ItemPageState extends State<ItemPage> {
                         widget.casename,
                         style: TextStyle(    fontFamily: 'Kanit',
                           fontWeight: FontWeight.w700,
-                          fontSize: 32,
+                          fontSize: 24,
                         ),
                         maxLines: 2,
                         textAlign: TextAlign.left,
@@ -100,29 +100,29 @@ class _ItemPageState extends State<ItemPage> {
                     ),
                   ],
                 ),
-                Row(
-                  children: <Widget>[
-                    Icon(
-                      Icons.call,
-                      size: 14,
-                      color: Colors.green,
-                    ),
-                    SizedBox(width: 3),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        '081234975319',
-                        style: TextStyle(    fontFamily: 'Kanit',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 13,
-                          color: Colors.blueGrey[300],
-                        ),
-                        maxLines: 1,
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
-                  ],
-                ),
+                // Row(
+                //   children: <Widget>[
+                //     Icon(
+                //       Icons.call,
+                //       size: 14,
+                //       color: Colors.green,
+                //     ),
+                //     SizedBox(width: 3),
+                //     Container(
+                //       alignment: Alignment.centerLeft,
+                //       child: Text(
+                //         '081234975319',
+                //         style: TextStyle(    fontFamily: 'Kanit',
+                //           fontWeight: FontWeight.bold,
+                //           fontSize: 13,
+                //           color: Colors.blueGrey[300],
+                //         ),
+                //         maxLines: 1,
+                //         textAlign: TextAlign.left,
+                //       ),
+                //     ),
+                //   ],
+                // ),
                 SizedBox(height: 20),
                 Container(
                   alignment: Alignment.centerLeft,
@@ -154,29 +154,6 @@ class _ItemPageState extends State<ItemPage> {
                   ),
                 ),
                 SizedBox(height: 10.0),
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "แจ้งข่าวโดย",
-                    style: TextStyle(    fontFamily: 'Kanit',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                    maxLines: 1,
-                    textAlign: TextAlign.left,
-                  ),
-                ),       SizedBox(height: 10.0),
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    widget.caseby,
-                    style: TextStyle(    fontFamily: 'Kanit',
-                      fontWeight: FontWeight.normal,
-                      fontSize: 15.0,
-                    ),
-                    textAlign: TextAlign.left,
-                  ),
-                ),
                 SizedBox(height: 10.0),
                 Container(
                   alignment: Alignment.centerLeft,
@@ -370,7 +347,7 @@ class _ItemPageState extends State<ItemPage> {
       'detail': widget.casedetail,
       'urlimage': widget.caseimage,
       'level': widget.caselevel,
-      'notifyby': widget.caseby,
+      'district': widget.casearea,
       'position': geoFirePoint.data
     }).then((_) {
       showAlertSucusses('การอัปโหลด', 'สำเร็จ');

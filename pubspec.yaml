@@ -44,6 +44,7 @@ dependencies:
   font_awesome_flutter: ^8.7.0
   intl: ^0.16.1
   color_utils: ^0.0.1
+  fancy_bottom_navigation: ^0.3.2
 
 
 

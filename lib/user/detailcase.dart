@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-
 class detailcase extends StatefulWidget {
   final String casename;
   final String casedetail;
   final String caseimage;
   final String caselevel;
   final String caseby;
+  final String casearea;
   final Timestamp date;
   final GeoPoint casemap;
 
@@ -22,6 +22,7 @@ class detailcase extends StatefulWidget {
     @required this.caseimage,
     @required this.caselevel,
     @required this.caseby,
+    @required this.casearea,
     @required this.date,
     @required this.casemap,
   }) : super(key: key);
@@ -37,6 +38,7 @@ class _detailcase extends State<detailcase> {
   Geoflutterfire geo;
 
   get timeago => widget.date;
+
   Set<Marker> mymarkers() {
     return <Marker>[localmarker()].toSet();
   }
@@ -55,10 +57,14 @@ class _detailcase extends State<detailcase> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(     backgroundColor: Colors.green[900],
+        appBar: AppBar(
+          backgroundColor: Colors.green[900],
           title: Text(
             widget.casename,
-            style: TextStyle(fontSize: 18,fontFamily: 'Kanit',),
+            style: TextStyle(
+              fontSize: 18,
+              fontFamily: 'Kanit',
+            ),
           ),
           leading: IconButton(
             icon: Icon(
@@ -85,7 +91,8 @@ class _detailcase extends State<detailcase> {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         widget.casename,
-                        style: TextStyle(fontFamily: 'Kanit',
+                        style: TextStyle(
+                          fontFamily: 'Kanit',
                           fontWeight: FontWeight.w700,
                           fontSize: 32,
                         ),
@@ -105,7 +112,8 @@ class _detailcase extends State<detailcase> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "รายละเอียด",
-                    style: TextStyle(fontFamily: 'Kanit',
+                    style: TextStyle(
+                      fontFamily: 'Kanit',
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
@@ -118,7 +126,8 @@ class _detailcase extends State<detailcase> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     widget.casedetail,
-                    style: TextStyle(fontFamily: 'Kanit',
+                    style: TextStyle(
+                      fontFamily: 'Kanit',
                       fontWeight: FontWeight.normal,
                       fontSize: 15.0,
                     ),
@@ -130,37 +139,52 @@ class _detailcase extends State<detailcase> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "แจ้งข่าวโดย",
-                    style: TextStyle(fontFamily: 'Kanit',
+                    style: TextStyle(
+                      fontFamily: 'Kanit',
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
                     maxLines: 1,
                     textAlign: TextAlign.left,
                   ),
-                ),       SizedBox(height: 10.0),
+                ),
+                SizedBox(height: 10.0),
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: Text(
-                    widget.caseby,
-                    style: TextStyle(fontFamily: 'Kanit',
-                      fontWeight: FontWeight.normal,
-                      fontSize: 15.0,
-                    ),
-                    textAlign: TextAlign.left,
-                  ),
-                ), SizedBox(height: 10.0),
+                  child: widget.caseby == null
+                      ? Text(
+                          'ไม่มีข้อมูล',
+                          style: TextStyle(
+                            fontFamily: 'Kanit',
+                            fontWeight: FontWeight.normal,
+                            fontSize: 15.0,
+                          ),
+                        )
+                      : Text(
+                          widget.caseby,
+                          style: TextStyle(
+                            fontFamily: 'Kanit',
+                            fontWeight: FontWeight.normal,
+                            fontSize: 15.0,
+                          ),
+                          textAlign: TextAlign.left,
+                        ),
+                ),
+                SizedBox(height: 10.0),
                 Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "แผนที่ตั้ง",
-                    style: TextStyle(fontFamily: 'Kanit',
+                    style: TextStyle(
+                      fontFamily: 'Kanit',
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
                     maxLines: 1,
                     textAlign: TextAlign.left,
                   ),
-                ), SizedBox(height: 10.0),
+                ),
+                SizedBox(height: 10.0),
                 Container(
                   height: 200,
                   width: 320,
@@ -193,7 +217,8 @@ class _detailcase extends State<detailcase> {
           Text(
             '${widget.caselevel}',
             style: TextStyle(
-              color: Colors.green,fontFamily: 'Kanit',
+              color: Colors.green,
+              fontFamily: 'Kanit',
               fontWeight: FontWeight.bold,
               fontSize: 17,
             ),
@@ -212,7 +237,8 @@ class _detailcase extends State<detailcase> {
           Text(
             '${widget.caselevel}',
             style: TextStyle(
-              color: Colors.yellow,fontFamily: 'Kanit',
+              color: Colors.yellow,
+              fontFamily: 'Kanit',
               fontWeight: FontWeight.bold,
               fontSize: 17,
             ),
@@ -231,7 +257,8 @@ class _detailcase extends State<detailcase> {
           Text(
             '${widget.caselevel}',
             style: TextStyle(
-              color: Colors.orange,fontFamily: 'Kanit',
+              color: Colors.orange,
+              fontFamily: 'Kanit',
               fontWeight: FontWeight.bold,
               fontSize: 17,
             ),
@@ -250,7 +277,8 @@ class _detailcase extends State<detailcase> {
           Text(
             '${widget.caselevel}',
             style: TextStyle(
-              color: Colors.red,fontFamily: 'Kanit',
+              color: Colors.red,
+              fontFamily: 'Kanit',
               fontWeight: FontWeight.bold,
               fontSize: 17,
             ),
@@ -281,17 +309,17 @@ class _detailcase extends State<detailcase> {
               borderRadius: BorderRadius.circular(10.0),
               child: widget.caseimage == null
                   ? Image.asset(
-                'images/photo.png',
-                height: 250,
-                width: MediaQuery.of(context).size.width - 40.0,
-                fit: BoxFit.cover,
-              )
+                      'images/photo.png',
+                      height: 250,
+                      width: MediaQuery.of(context).size.width - 40.0,
+                      fit: BoxFit.cover,
+                    )
                   : Image.network(
-                widget.caseimage,
-                height: 250,
-                width: MediaQuery.of(context).size.width - 40.0,
-                fit: BoxFit.cover,
-              ),
+                      widget.caseimage,
+                      height: 250,
+                      width: MediaQuery.of(context).size.width - 40.0,
+                      fit: BoxFit.cover,
+                    ),
             ),
           );
         },
@@ -302,7 +330,7 @@ class _detailcase extends State<detailcase> {
   Marker localmarker() {
     return Marker(
       infoWindow:
-      InfoWindow(title: widget.casename, snippet: "${widget.caselevel}"),
+          InfoWindow(title: widget.casename, snippet: "${widget.caselevel}"),
       markerId: MarkerId('mylocal'),
       position: LatLng(widget.casemap.latitude, widget.casemap.longitude),
     );
@@ -319,7 +347,7 @@ class _detailcase extends State<detailcase> {
               FlatButton(
                   onPressed: () {
                     MaterialPageRoute route =
-                    MaterialPageRoute(builder: (value) => caseattentive());
+                        MaterialPageRoute(builder: (value) => caseattentive());
                     Navigator.of(context)
                         .pushAndRemoveUntil(route, (value) => false);
                   },
@@ -331,12 +359,14 @@ class _detailcase extends State<detailcase> {
 
   adddata() async {
     Firestore firestore = Firestore.instance;
-    GeoFirePoint geoFirePoint = geo.point(latitude: widget.casemap.latitude, longitude: widget.casemap.longitude);
+    GeoFirePoint geoFirePoint = geo.point(
+        latitude: widget.casemap.latitude, longitude: widget.casemap.longitude);
     firestore.collection('Caseinterested').add({
       'name': widget.casename,
       'detail': widget.casedetail,
       'urlimage': widget.caseimage,
       'level': widget.caselevel,
+      'district': widget.casearea,
       'position': geoFirePoint.data
     }).then((_) {
       showAlertSucusses('การอัปโหลด', 'สำเร็จ');

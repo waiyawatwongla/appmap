@@ -199,10 +199,7 @@ class _update_notifyimage extends State<update_notifyimage> {
             actions: <Widget>[
               FlatButton(
                   onPressed: () {
-                    MaterialPageRoute route =
-                    MaterialPageRoute(builder: (value) => casemanagernotify());
-                    Navigator.of(context)
-                        .pushAndRemoveUntil(route, (value) => false);
+                    Navigator.pop(context);
                   },
                   child: Text('ok'))
             ],

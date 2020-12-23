@@ -143,10 +143,7 @@ class _update_notifymap extends State<update_notifymap> {
             actions: <Widget>[
               FlatButton(
                   onPressed: () {
-                    MaterialPageRoute route =
-                    MaterialPageRoute(builder: (value) => casemanagernotify());
-                    Navigator.of(context)
-                        .pushAndRemoveUntil(route, (value) => false);
+                    Navigator.pop(context);
                   },
                   child: Text('ok'))
             ],

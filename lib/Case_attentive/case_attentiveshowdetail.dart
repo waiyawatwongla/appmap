@@ -80,38 +80,7 @@ class _caseattentiveshow extends State<caseattentiveshow> {
                         widget.casename,
                         style: TextStyle(fontFamily: 'Kanit',
                           fontWeight: FontWeight.w700,
-                          fontSize: 32,
-                        ),
-                        maxLines: 2,
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
-                    IconButton(
-                      icon: Icon(
-                        Icons.map,
-                      ),
-                      onPressed: () {
-
-                      },
-                    ),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Icon(
-                      Icons.call,
-                      size: 14,
-                      color: Colors.green,
-                    ),
-                    SizedBox(width: 3),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        '081234975319',
-                        style: TextStyle(fontFamily: 'Kanit',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 13,
-                          color: Colors.blueGrey[300],
+                          fontSize: 24,
                         ),
                         maxLines: 1,
                         textAlign: TextAlign.left,
@@ -119,6 +88,29 @@ class _caseattentiveshow extends State<caseattentiveshow> {
                     ),
                   ],
                 ),
+                // Row(
+                //   children: <Widget>[
+                //     Icon(
+                //       Icons.call,
+                //       size: 14,
+                //       color: Colors.green,
+                //     ),
+                //     SizedBox(width: 3),
+                //     Container(
+                //       alignment: Alignment.centerLeft,
+                //       child: Text(
+                //         '081234975319',
+                //         style: TextStyle(fontFamily: 'Kanit',
+                //           fontWeight: FontWeight.bold,
+                //           fontSize: 13,
+                //           color: Colors.blueGrey[300],
+                //         ),
+                //         maxLines: 1,
+                //         textAlign: TextAlign.left,
+                //       ),
+                //     ),
+                //   ],
+                // ),
                 SizedBox(height: 20),
                 Container(
                   alignment: Alignment.centerLeft,
@@ -146,6 +138,18 @@ class _caseattentiveshow extends State<caseattentiveshow> {
                       fontWeight: FontWeight.normal,
                       fontSize: 15.0,
                     ),
+                    textAlign: TextAlign.left,
+                  ),
+                ),SizedBox(height: 20,),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "แผนที่ตั้ง",
+                    style: TextStyle(    fontFamily: 'Kanit',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                    maxLines: 1,
                     textAlign: TextAlign.left,
                   ),
                 ),

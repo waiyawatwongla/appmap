@@ -119,10 +119,7 @@ class _update_notifylevel extends State<update_notifylevel> {
             actions: <Widget>[
               FlatButton(
                   onPressed: () {
-                    MaterialPageRoute route =
-                    MaterialPageRoute(builder: (value) => casemanagernotify());
-                    Navigator.of(context)
-                        .pushAndRemoveUntil(route, (value) => false);
+                    Navigator.pop(context);
                   },
                   child: Text('ok'))
             ],

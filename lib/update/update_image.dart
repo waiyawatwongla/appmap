@@ -199,10 +199,7 @@ class _update_image extends State<update_image> {
             actions: <Widget>[
               FlatButton(
                   onPressed: () {
-                    MaterialPageRoute route =
-                        MaterialPageRoute(builder: (value) => casemanagerattentive());
-                    Navigator.of(context)
-                        .pushAndRemoveUntil(route, (value) => false);
+                    Navigator.pop(context);
                   },
                   child: Text('ok'))
             ],

@@ -1,5 +1,11 @@
+import 'dart:io';
+
 import 'package:appmap/Case_manager/casemanager.dart';
 import 'package:appmap/Profile/profilepage.dart';
+import 'package:appmap/show/showattentive.dart';
+import 'package:appmap/show/shownew.dart';
+import 'package:appmap/user/test.dart';
+import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +18,7 @@ import 'Homeviewgoolemap.dart';
 class Navigationbar extends StatefulWidget {
   final FirebaseUser user;
 
-  Navigationbar(this.user, {Key key}) : super(key: key);
+  Navigationbar(this.user);
 
   @override
   _NavigationbarState createState() => _NavigationbarState();
@@ -20,20 +26,19 @@ class Navigationbar extends StatefulWidget {
 
 class _NavigationbarState extends State<Navigationbar> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  var user;
-  int _selectedIndex = 0;
-  List<Widget> _pageWidget = <Widget>[
+
+
+  int selectedpage = 0; //initial value
+
+  List<StatefulWidget> _pageOptions = [
     MapsPage(),
-    casadd(),
+    CloudFirestoreSearch(),
     casenews(),
     caseattentive(),
-  ];
+    // casemanager(),
+  ]; // listing of all 3 pages index wise
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+  // final bgcolor = [Colors.green, Colors.teal, Colors.greenAccent];
 
   void signOut(BuildContext context) {
     _auth.signOut();
@@ -43,47 +48,142 @@ class _NavigationbarState extends State<Navigationbar> {
         ModalRoute.withName('/'));
   }
 
+
+  Future<bool> _onWillPop() {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('แจ้งเตือน?',style: TextStyle(fontFamily: 'Kanit'),),
+        content: Text('คุณต้องการออกจากแอปพลิเคชัน?',style: TextStyle(fontFamily: 'Kanit'),),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text('ยกเลิก',style: TextStyle(fontFamily: 'Kanit'),),
+          ),
+          FlatButton(
+            onPressed: () => exit(0),
+            /*Navigator.of(context).pop(true)*/
+            child: Text('ยืนยัน',style: TextStyle(fontFamily: 'Kanit'),),
+          ),
+        ],
+      ),
+    ) ??
+        false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Center(
-          child: _pageWidget.elementAt(_selectedIndex),
-        ),
-        drawer: _drawer(),
-        bottomNavigationBar: Theme(
-          data: Theme.of(context).copyWith(
-              canvasColor: Colors.green[900],
-              primaryColor: Colors.teal,
-              textTheme: Theme.of(context)
-                  .textTheme
-                  .copyWith(caption: TextStyle(color: Colors.black))),
-          child: BottomNavigationBar(
-            items: <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.map),
-                title: Text('แผนที่',style: TextStyle( fontFamily: 'Kanit'),),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.add),
-                title: Text('แจ้งข่าว',style: TextStyle( fontFamily: 'Kanit')),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.new_releases),
-                title: Text('ข่าวใหม่',style: TextStyle( fontFamily: 'Kanit')),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.favorite),
-                title: Text('เคสที่สนใจ',style: TextStyle( fontFamily: 'Kanit')),
-              ),
+    return WillPopScope(onWillPop: _onWillPop,
+      child: SafeArea(
+        child: Scaffold(drawer: _drawer(),
+          appBar: AppBar(
+            // automaticallyImplyLeading: false,
+            title: Row(mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Image.asset(
+                  'images/logo2.png',
+                  height: MediaQuery.of(context).size.height,
+                  width: 45,
+                ),
+                SizedBox(
+                  width: 25,
+                ),
+                Text(
+                  'Prevent violence',
+                  style: TextStyle(fontFamily: 'Kanit'),
+                ),
+
+
+              ],
+            ),
+            actions: <Widget>[
+              // IconButton(
+              //   icon: Icon(
+              //     Icons.search,
+              //     color: Colors.white,
+              //   ),
+              // ),
+              // IconButton(
+              //     icon: Icon(
+              //   Icons.account_circle,
+              //   color: Colors.white,
+              // ))
             ],
-            currentIndex: _selectedIndex,
-            selectedItemColor: Colors.white,
-            onTap: _onItemTapped,
+          ),
+          body: _pageOptions[selectedpage],
+          bottomNavigationBar: FancyBottomNavigation(
+            inactiveIconColor: Colors.white,
+            circleColor: Colors.white,
+            textColor: Colors.white,
+            barBackgroundColor: Colors.green[900],
+            activeIconColor: Colors.green,
+            tabs: [
+              TabData(
+                iconData: Icons.map,
+                title: "แผนที่",
+              ),
+              TabData(
+                iconData: Icons.search,
+                title: "ค้นหา",
+              ),
+              TabData(
+                iconData: Icons.new_releases,
+                title: "ข่าวใหม่",
+              ),
+              TabData(
+                iconData: Icons.favorite,
+                title: "เคสที่สนใจ",
+              ),
+              // TabData(
+              //   iconData: Icons.settings,
+              //   title: "การจัดการ",
+              // ),
+            ],
+            onTabChangedListener: (position) {
+              setState(() {
+                selectedpage = position;
+              });
+            },
           ),
         ),
       ),
     );
+
+    // Center(
+    //   child: _pageWidget.elementAt(_selectedIndex),
+    // ),
+    // // drawer: _drawer(),
+    // bottomNavigationBar: Theme(
+    //   data: Theme.of(context).copyWith(
+    //       canvasColor: Colors.green[900],
+    //       primaryColor: Colors.teal,
+    //       textTheme: Theme.of(context)
+    //           .textTheme
+    //           .copyWith(caption: TextStyle(color: Colors.black))),
+    //   child: BottomNavigationBar(
+    //     items: <BottomNavigationBarItem>[
+    //       BottomNavigationBarItem(
+    //         icon: Icon(Icons.map),
+    //         title: Text('แผนที่',style: TextStyle( fontFamily: 'Kanit'),),
+    //       ),
+    //       // BottomNavigationBarItem(
+    //       //   icon: Icon(Icons.add),
+    //       //   title: Text('แจ้งข่าว',style: TextStyle( fontFamily: 'Kanit')),
+    //       // ),
+    //       BottomNavigationBarItem(
+    //         icon: Icon(Icons.new_releases),
+    //         title: Text('ข่าวใหม่',style: TextStyle( fontFamily: 'Kanit')),
+    //       ),
+    //       BottomNavigationBarItem(
+    //         icon: Icon(Icons.favorite),
+    //         title: Text('เคสที่สนใจ',style: TextStyle( fontFamily: 'Kanit')),
+    //       ),
+    //     ],
+    //     currentIndex: _selectedIndex,
+    //     selectedItemColor: Colors.white,
+    //     onTap: _onItemTapped,
+    //   ),
+    // ),
   }
 
   Widget _drawer() {
@@ -93,7 +193,7 @@ class _NavigationbarState extends State<Navigationbar> {
           Opacity(
             opacity: 1,
             child: Stack(children: <Widget>[
-              Column(
+              Column(crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
                     height: 250,
@@ -108,42 +208,32 @@ class _NavigationbarState extends State<Navigationbar> {
                   ),
                 ],
               ),
-              Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Image.asset(
-                    'images/logo2.png',
-                    width: MediaQuery.of(context).size.width * 0.2,
-                    height: MediaQuery.of(context).size.height * 0.3,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Center(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          'เข้าสู่ระบบโดย :',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Kanit'),
-                        ),
-                        Text(
-                          widget.user.email,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Kanit'),
-                        ),
-                      ],
+              Center(
+                child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Image.asset(
+                      'images/logo2.png',
+                      width: MediaQuery.of(context).size.width * 0.3,
+                      // height: MediaQuery.of(context).size.height * 0.3,
+                      height: 150,
                     ),
-                  ),
-                ],
+                    Text(
+                      'เข้าสู่ระบบโดย :',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Kanit'),
+                    ),
+                    Text(
+                      widget.user.email,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Kanit'),
+                    ),
+
+                  ],
+                ),
               )
             ]),
           ),
@@ -152,65 +242,74 @@ class _NavigationbarState extends State<Navigationbar> {
               Icons.settings,
               color: Colors.green[900],
             ),
-            title: Text("จัดการเคส",style: TextStyle( fontFamily: 'Kanit')),
+            title: Text("จัดการเคส", style: TextStyle(fontFamily: 'Kanit')),
             onTap: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => casemanager()));
+                  MaterialPageRoute(builder: (context) => casemanager(user: widget.user,)));
             },
-          ),Divider(),
+          ),
+          Divider(),
           ListTile(
             leading: Icon(
               Icons.favorite,
               color: Colors.redAccent,
             ),
-            title: Text("เคสที่สนใจ",style: TextStyle( fontFamily: 'Kanit')),
+            title: Text("เคสที่สนใจ", style: TextStyle(fontFamily: 'Kanit')),
             onTap: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => caseattentive()));
+                  MaterialPageRoute(builder: (context) => shoowattentive()));
             },
-          ),Divider(),
+          ),
+          Divider(),
           ListTile(
             leading: Icon(
               Icons.new_releases,
               color: Colors.yellow,
             ),
-            title: Text("ข่าวใหม่เคส",style: TextStyle( fontFamily: 'Kanit')),
+            title: Text("ข่าวใหม่เคส", style: TextStyle(fontFamily: 'Kanit')),
             onTap: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => casenews()));
+                  context, MaterialPageRoute(builder: (context) => shownews()));
             },
-          ),Divider(),
+          ),
+          Divider(),
           ListTile(
             leading: Icon(
               Icons.add,
               color: Colors.orange,
             ),
-            title: Text("แจ้งความรุนแรง",style: TextStyle( fontFamily: 'Kanit')),
+            title:
+                Text("แจ้งความรุนแรง", style: TextStyle(fontFamily: 'Kanit')),
             onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => casadd()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => casadd(user: widget.user,)));
             },
-          ),Divider(),
+          ),
+          Divider(),
           ListTile(
               leading: Icon(
                 Icons.account_box,
                 color: Colors.teal,
               ),
-              title: Text("โปรไฟล์",style: TextStyle( fontFamily: 'Kanit')),
+              title: Text("โปรไฟล์", style: TextStyle(fontFamily: 'Kanit')),
               onTap: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => profilepage(widget.user)));
-              }),Divider(),
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => profilepage(widget.user)));
+              }),
+          Divider(),
           ListTile(
             leading: Icon(
               Icons.exit_to_app,
               color: Colors.red,
             ),
-            title: Text("ออกจากระบบ",style: TextStyle( fontFamily: 'Kanit')),
+            title: Text("ออกจากระบบ", style: TextStyle(fontFamily: 'Kanit')),
             onTap: () {
               signOut(context);
             },
-          ),Divider(),
+          ),
+          Divider(),
         ],
       ),
     );

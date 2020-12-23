@@ -27,6 +27,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
+    // checkstatus();
   }
 
   signIn() {
@@ -39,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
       Check(user); // add here
     }).catchError((error) {
       scaffoldKey.currentState.showSnackBar(SnackBar(
-        content: Text('รหัสผิด กรุณากรอกใหม่',
+        content: Text('รหัสผ่านผิด กรุณากรอกใหม่',
             style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.red,
       ));
@@ -65,14 +66,22 @@ class _LoginPageState extends State<LoginPage> {
         .then((value) {
       if (value.data['role'] == 'admin') {
         print('admin');
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => Navigationbar(user)));
+        MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context)=> Navigationbar(user));
+        Navigator.of(context).pushAndRemoveUntil(materialPageRoute, (Route<dynamic> route) => false);
       } else if (value.data['role'] == 'user') {
         print('user');
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => homepageuser(user)));
+        MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context)=> homepageuser(user));
+        Navigator.of(context).pushAndRemoveUntil(materialPageRoute, (Route<dynamic> route) => false);
       }
     });
+  }
+
+  Future<void> checkstatus(FirebaseUser user) async {
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    FirebaseUser firebaseUser = await firebaseAuth.currentUser();
+    if(firebaseUser != null){
+      Check(user);
+    }
   }
 
   Future<void> showAlert(String title, String message) async {

@@ -1,11 +1,17 @@
 import 'package:appmap/Case_manager/casemanagernotify.dart';
+import 'package:appmap/Case_notify/caseadd.dart';
+import 'package:appmap/Profile/profilepage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'casemanagerattentive.dart';
 
 class casemanager extends StatefulWidget {
+  final FirebaseUser user;
+
+  casemanager({this.user});
+
   @override
   _casemanagerState createState() => _casemanagerState();
 }
@@ -62,17 +68,17 @@ class _casemanagerState extends State<casemanager> {
                     SizedBox(
                       height: 10,
                     ),
-                    Text(
-                      'จำนวนเคสที่แจ้ง',
-                        style: TextStyle(fontFamily: 'Kanit',)
-                    ),
+                    Text('จำนวนเคสที่แจ้ง',
+                        style: TextStyle(
+                          fontFamily: 'Kanit',
+                        )),
                     SizedBox(
                       height: 10,
                     ),
-                    Text(
-                      '${snapshot.data.documents.length}',
-                        style: TextStyle(fontFamily: 'Kanit',)
-                    ),
+                    Text('${snapshot.data.documents.length}',
+                        style: TextStyle(
+                          fontFamily: 'Kanit',
+                        )),
                   ],
                 ),
               ),
@@ -100,13 +106,13 @@ class _casemanagerState extends State<casemanager> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
+        appBar: AppBar(title: Text('จัดการเคส',style: TextStyle(fontFamily: 'Kanit'),),
           actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.print),
-                onPressed: () {
-                  // getnotifydata();
-                })
+            // IconButton(
+            //     icon: Icon(Icons.print),
+            //     onPressed: () {
+            //       // getnotifydata();
+            //     })
           ],
         ),
         body: Container(
@@ -159,17 +165,17 @@ class _casemanagerState extends State<casemanager> {
                             SizedBox(
                               height: 10,
                             ),
-                            Text(
-                              'จำนวนเคสที่สนใจ',
-                                style: TextStyle(fontFamily: 'Kanit',)
-                            ),
+                            Text('จำนวนเคสที่สนใจ',
+                                style: TextStyle(
+                                  fontFamily: 'Kanit',
+                                )),
                             SizedBox(
                               height: 10,
                             ),
-                            Text(
-                              '${snapshot.data.documents.length}',
-                                style: TextStyle(fontFamily: 'Kanit',)
-                            ),
+                            Text('${snapshot.data.documents.length}',
+                                style: TextStyle(
+                                  fontFamily: 'Kanit',
+                                )),
                           ],
                         ),
                       ),
@@ -192,10 +198,10 @@ class _casemanagerState extends State<casemanager> {
                             SizedBox(
                               height: 10,
                             ),
-                            Text(
-                              'ค้นหาเคส',
-                              style: TextStyle(fontFamily: 'Kanit',)
-                            ),
+                            Text('ค้นหาเคส',
+                                style: TextStyle(
+                                  fontFamily: 'Kanit',
+                                )),
                             SizedBox(
                               height: 10,
                             ),
@@ -212,7 +218,54 @@ class _casemanagerState extends State<casemanager> {
                       ),
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => casadd(user: widget.user)));
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(8.0),
+                          ),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Image.asset(
+                              'images/add-user.png',
+                              width: 42,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text('แจ้งข่าวความรุนแรง',
+                                style: TextStyle(
+                                  fontFamily: 'Kanit',
+                                )),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            // Text(
+                            //   '${test1 + test2}',
+                            //   style: GoogleFonts.openSans(
+                            //       textStyle: TextStyle(
+                            //           color: Colors.black,
+                            //           fontSize: 14,
+                            //           fontWeight: FontWeight.w600)),
+                            // )
+                          ],
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => profilepage(widget.user)));
+                      },
                       child: Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: const BorderRadius.all(
@@ -229,10 +282,10 @@ class _casemanagerState extends State<casemanager> {
                             SizedBox(
                               height: 10,
                             ),
-                            Text(
-                              'โปรไฟล์',
-                                style: TextStyle(fontFamily: 'Kanit',)
-                            ),
+                            Text('โปรไฟล์',
+                                style: TextStyle(
+                                  fontFamily: 'Kanit',
+                                )),
                             SizedBox(
                               height: 10,
                             ),
