@@ -126,7 +126,7 @@ class _update_notify extends State<update_notify> {
                             widget.ds.data['name'],
                             style: TextStyle(fontFamily: 'Kanit',
                               fontWeight: FontWeight.w700,
-                              fontSize: 32,
+                              fontSize: 22,
                             ),
                             maxLines: 2,
                             textAlign: TextAlign.left,

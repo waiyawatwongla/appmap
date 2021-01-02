@@ -94,7 +94,7 @@ class _detailcase extends State<detailcase> {
                         style: TextStyle(
                           fontFamily: 'Kanit',
                           fontWeight: FontWeight.w700,
-                          fontSize: 32,
+                          fontSize: 22,
                         ),
                         maxLines: 2,
                         textAlign: TextAlign.left,

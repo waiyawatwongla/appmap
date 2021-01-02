@@ -1,3 +1,4 @@
+import 'package:appmap/Case_attentive/case_attentiveshowdetail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -7,117 +8,137 @@ class CloudFirestoreSearch extends StatefulWidget {
 }
 
 class _CloudFirestoreSearchState extends State<CloudFirestoreSearch> {
-  String name = "";
+  TextEditingController _addname;
+  String searchString;
 
-  Widget _widget(String searchText) {
-    return RaisedButton(
-      elevation: 2,
-      color: Colors.green,
-      child: Text(searchText),
-      onPressed: () {
-        setState(() {
-          name = searchText;
-        });
-      },
-    );
+  @override
+  void initState() {
+    super.initState();
+    _addname = TextEditingController();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Card(
-        child: Column(
-          children: <Widget>[
-            TextField(
-              decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.search), hintText: 'Search...'),
-              onChanged: (val) {
-                setState(() {
-                  name = val;
-                });
-              },
-            ),
-            Container(
-              height: 50,
-              color: Colors.white.withOpacity(0.7),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  _widget("แม่สอด"),
-                  _widget("มหาวัน"),
-                  _widget("ท่าสายลวด"),
-                  _widget("อื่นๆ")
-                ],
+      body: Column(
+        children: <Widget>[
+          // Row(
+          //   children: <Widget>[
+          //     Expanded(
+          //         child: TextField(
+          //       controller: _addname,
+          //     )),
+          //     RaisedButton(
+          //       onPressed: () {
+          //         adddata(_addname.text);
+          //       },
+          //       child: Text('adddata'),
+          //     )
+          //   ],
+          // ),
+          Expanded(
+              child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: 10,
               ),
-            ),
-            Container(
-              height: 30,
-              width: double.infinity,
-              color: Colors.white.withOpacity(0.9),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 15, top: 3),
-                child: Text(
-                  "Seach for: $name",
-                  style:
-                  TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+              Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(17.0),
+                    side: BorderSide(color: Colors.green[900])),
+                child: TextField(
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      prefixIcon: Icon(Icons.search),
+                      hintText: 'ค้นหา...'),
+                  onChanged: (value) {
+                    setState(() {
+                      searchString = value.toLowerCase();
+                    });
+                  },
                 ),
               ),
-            ),
-            Expanded(
-              child: StreamBuilder<QuerySnapshot>(
-                stream: (name != "" && name != null)
-                    ? Firestore.instance
-                        .collection('items').where('name', isGreaterThanOrEqualTo: name)
-                        .snapshots()
-                    : Firestore.instance.collection("items").snapshots(),
-                builder: (context, snapshot) {
-                  return (snapshot.connectionState == ConnectionState.waiting)
-                      ? Center(child: CircularProgressIndicator())
-                      : ListView.builder(
-                          itemCount: snapshot.data.documents.length,
-                          itemBuilder: (context, index) {
-                            DocumentSnapshot data =
-                                snapshot.data.documents[index];
-                            return Card(
-                              child: Row(
-                                children: <Widget>[
-                                  Image.network(
-                                    data['imageUrl'],
-                                    width: 150,
-                                    height: 100,
-                                    fit: BoxFit.fill,
+              Expanded(
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: (searchString == null || searchString.trim() == " ")
+                      ? Firestore.instance
+                          .collection('Caseinterested')
+                          .snapshots()
+                      : Firestore.instance
+                          .collection('Caseinterested')
+                          .where('searchindex', arrayContains: searchString)
+                          .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError)
+                      return Text('error  ${snapshot.hasError}');
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.waiting:
+                        return Center(child: CircularProgressIndicator());
+                      default:
+                        return ListView(
+                          children: snapshot.data.documents
+                              .map((DocumentSnapshot document) {
+                            return InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => caseattentiveshow(
+                                      casename: document["name"],
+                                      casedetail: document["detail"],
+                                      caseimage: document["urlimage"],
+                                      caselevel: document["level"],
+                                      casemap: document["position"]["geopoint"],
+                                    ),
                                   ),
-                                  SizedBox(
-                                    width: 25,
-                                  ),
-                                  Column(
-                                    children: <Widget>[
-                                      Text(
-                                        data['name'],
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 20,
-                                        ),
-                                      ),
-                                      Text(
-                                        data['District'],
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                );
+                              },
+                              child: ListTile(
+                                title: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      document['name'],
+                                      style: TextStyle(fontFamily: 'Kanit'),
+                                    ),
+                                    Divider()
+                                  ],
+                                ),
                               ),
                             );
-                          },
+                          }).toList(),
                         );
-                },
+                    }
+                  },
+                ),
               ),
-            )
-          ],
-        ),
+            ],
+          ))
+        ],
       ),
     );
+  }
+
+  void adddata(String name) {
+    List<String> split = name.split(" ");
+    List<String> indexlist = [];
+
+    for (int i = 0; i < split.length; i++) {
+      for (int y = 1; y < split[i].length + 1; y++) {
+        indexlist.add(split[i].substring(0, y).toLowerCase());
+      }
+    }
+    print(indexlist);
+
+    Firestore.instance
+        .collection('item')
+        .document()
+        .setData(({'name': name, 'searchindex': indexlist}));
+  }
+
+  void initiateSearch(String val) {
+    setState(() {
+      searchString = val.toLowerCase().trim();
+    });
   }
 }

@@ -340,6 +340,14 @@ class _ItemPageState extends State<ItemPage> {
   }
 
   adddata() async {
+    List<String> indexlist = [];
+    for (int i = 0; i < widget.casename.length; i++) {
+      for (int y = 1; y < widget.casename[i].length + 1; y++) {
+        indexlist.add(widget.casename[i].substring(0, y).toLowerCase());
+      }
+    }
+    print(indexlist);
+
     Firestore firestore = Firestore.instance;
     GeoFirePoint geoFirePoint = geo.point(latitude: widget.casemap.latitude, longitude: widget.casemap.longitude);
     firestore.collection('Caseinterested').add({
@@ -348,9 +356,29 @@ class _ItemPageState extends State<ItemPage> {
       'urlimage': widget.caseimage,
       'level': widget.caselevel,
       'district': widget.casearea,
-      'position': geoFirePoint.data
+      'position': geoFirePoint.data,
+      'searchindex' : indexlist,
     }).then((_) {
       showAlertSucusses('การอัปโหลด', 'สำเร็จ');
     });
   }
+
+  void adddatas(String name) {
+    List<String> split = name.split(" ");
+    List<String> indexlist = [];
+
+    for (int i = 0; i < split.length; i++) {
+      for (int y = 1; y < split[i].length + 1; y++) {
+        indexlist.add(split[i].substring(0, y).toLowerCase());
+      }
+    }
+    print(indexlist);
+
+    Firestore.instance
+        .collection('item')
+        .document()
+        .setData(({'name': name, 'searchindex': indexlist}));
+  }
+
+
 }

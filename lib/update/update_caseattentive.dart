@@ -121,7 +121,7 @@ class _update_case extends State<update_case> {
                             widget.ds.data['name'],
                             style: TextStyle( fontFamily: 'Kanit',
                               fontWeight: FontWeight.w700,
-                              fontSize: 32,
+                              fontSize: 22,
                             ),
                             maxLines: 2,
                             textAlign: TextAlign.left,

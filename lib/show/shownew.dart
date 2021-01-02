@@ -16,6 +16,24 @@ class _shownews extends State<shownews> {
     super.initState();
   }
 
+
+  String name = "";
+
+  Widget _widget(String searchText) {
+    return RaisedButton(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+          side: BorderSide(color: Colors.green[900])),
+      elevation: 2,
+      color: Colors.white,
+      child: Text(searchText,style: TextStyle(fontFamily: 'kanit'),),
+      onPressed: () {
+        setState(() {
+          name = '${searchText}';
+        });
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -37,9 +55,39 @@ class _shownews extends State<shownews> {
           child: ListView(
             padding: EdgeInsets.all(15),
             children: <Widget>[
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Text('หมวดหมู่ :',style: TextStyle(fontSize: 15,fontFamily: 'Kanit',color: Colors.white),),
+                  _widget("แม่สอด"),
+
+                  _widget("ท่าสายลวด"),
+
+                  _widget("มหาวัน"),
+
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 15, top: 3),
+                child: Text(
+                  "ค้นหา : $name",
+                  style: TextStyle(fontSize: 15,fontFamily: 'Kanit',color: Colors.white),
+                ),
+              ),
+              Text(
+                "เคสการแจ้งทั้งหมด",
+                style: TextStyle(fontSize: 22, fontFamily: 'Kanit',color: Colors.white70),
+              ),
               StreamBuilder<QuerySnapshot>(
-                  stream:
-                  Firestore.instance.collection('CaseNotify').snapshots(),
+                  stream: (name != "" && name != null)
+                      ? Firestore.instance
+                      .collection('CaseNotify')
+                      .where('district', isEqualTo: name)
+                      .snapshots()
+                      : Firestore.instance
+                      .collection("CaseNotify")
+                      .snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return Column(

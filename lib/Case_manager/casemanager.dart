@@ -1,6 +1,7 @@
 import 'package:appmap/Case_manager/casemanagernotify.dart';
 import 'package:appmap/Case_notify/caseadd.dart';
 import 'package:appmap/Profile/profilepage.dart';
+import 'package:appmap/show/search.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -181,7 +182,12 @@ class _casemanagerState extends State<casemanager> {
                       ),
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => search()));
+                      },
                       child: Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: const BorderRadius.all(
