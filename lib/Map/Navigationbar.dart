@@ -4,7 +4,7 @@ import 'package:appmap/Case_manager/casemanager.dart';
 import 'package:appmap/Profile/profilepage.dart';
 import 'package:appmap/show/showattentive.dart';
 import 'package:appmap/show/shownew.dart';
-import 'package:appmap/user/test.dart';
+import 'package:appmap/user/searchbar.dart';
 import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
