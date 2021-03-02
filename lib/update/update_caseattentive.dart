@@ -38,7 +38,7 @@ class _update_case extends State<update_case> {
   }
 
   navigateToDetail2(DocumentSnapshot ds) {
-    Navigator.push(
+    Navigator.pushReplacement(
         context,
         MaterialPageRoute(
             builder: (context) => update_detail(
@@ -47,7 +47,7 @@ class _update_case extends State<update_case> {
   }
 
   navigateToDetail3(DocumentSnapshot ds) {
-    Navigator.push(
+    Navigator.pushReplacement(
         context,
         MaterialPageRoute(
             builder: (context) => update_name(
@@ -56,7 +56,7 @@ class _update_case extends State<update_case> {
   }
 
   navigateToDetail4(DocumentSnapshot ds) {
-    Navigator.push(
+    Navigator.pushReplacement(
         context,
         MaterialPageRoute(
             builder: (context) => update_level(
@@ -65,7 +65,7 @@ class _update_case extends State<update_case> {
   }
 
   navigateToDetail5(DocumentSnapshot ds) {
-    Navigator.push(
+    Navigator.pushReplacement(
         context,
         MaterialPageRoute(
             builder: (context) => update_image(
@@ -74,7 +74,7 @@ class _update_case extends State<update_case> {
   }
 
   navigateToDetail6(DocumentSnapshot ds) {
-    Navigator.push(
+    Navigator.pushReplacement(
         context,
         MaterialPageRoute(
             builder: (context) => update_map(
@@ -141,29 +141,29 @@ class _update_case extends State<update_case> {
                     ),
                   ],
                 ),
-                Row(
-                  children: <Widget>[
-                    Icon(
-                      Icons.call,
-                      size: 14,
-                      color: Colors.green,
-                    ),
-                    SizedBox(width: 3),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        '081234975319',
-                        style: TextStyle( fontFamily: 'Kanit',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 13,
-                          color: Colors.blueGrey[300],
-                        ),
-                        maxLines: 1,
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
-                  ],
-                ),
+                // Row(
+                //   children: <Widget>[
+                //     Icon(
+                //       Icons.call,
+                //       size: 14,
+                //       color: Colors.green,
+                //     ),
+                //     SizedBox(width: 3),
+                //     Container(
+                //       alignment: Alignment.centerLeft,
+                //       child: Text(
+                //         '081234975319',
+                //         style: TextStyle( fontFamily: 'Kanit',
+                //           fontWeight: FontWeight.bold,
+                //           fontSize: 13,
+                //           color: Colors.blueGrey[300],
+                //         ),
+                //         maxLines: 1,
+                //         textAlign: TextAlign.left,
+                //       ),
+                //     ),
+                //   ],
+                // ),
                 SizedBox(height: 20),
                 Container(
                   alignment: Alignment.centerLeft,
@@ -265,13 +265,13 @@ class _update_case extends State<update_case> {
             ),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.green,
-          child: Icon(
-            Icons.call,
-          ),
-          onPressed: () {},
-        ),
+        // floatingActionButton: FloatingActionButton(
+        //   backgroundColor: Colors.green,
+        //   child: Icon(
+        //     Icons.dvr,
+        //   ),
+        //   onPressed: () {},
+        // ),
       ),
     );
   }

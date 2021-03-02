@@ -81,9 +81,9 @@ class _NavigationbarState extends State<Navigationbar> {
             title: Row(mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Image.asset(
-                  'images/logo2.png',
+                  'images/logo4.png',
                   height: MediaQuery.of(context).size.height,
-                  width: 45,
+                  width: 60,
                 ),
                 SizedBox(
                   width: 25,
@@ -212,10 +212,10 @@ class _NavigationbarState extends State<Navigationbar> {
                 child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     Image.asset(
-                      'images/logo2.png',
-                      width: MediaQuery.of(context).size.width * 0.3,
+                      'images/logo4.png',
+                      width: MediaQuery.of(context).size.width * 0.5,
                       // height: MediaQuery.of(context).size.height * 0.3,
-                      height: 150,
+                      height: 160,
                     ),
                     Text(
                       'เข้าสู่ระบบโดย :',

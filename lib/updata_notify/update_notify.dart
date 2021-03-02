@@ -38,12 +38,11 @@ class _update_notify extends State<update_notify> {
         .document()
         .get()
         .then((value) {
-      setState(() {});
     });
   }
 
   navigateToDetail2(DocumentSnapshot ds) {
-    Navigator.push(
+    Navigator.pushReplacement(
         context,
         MaterialPageRoute(
             builder: (context) => update_notifydetail(
@@ -52,7 +51,7 @@ class _update_notify extends State<update_notify> {
   }
 
   navigateToDetail3(DocumentSnapshot ds) {
-    Navigator.push(
+    Navigator.pushReplacement(
         context,
         MaterialPageRoute(
             builder: (context) => update_notifyname(
@@ -61,16 +60,17 @@ class _update_notify extends State<update_notify> {
   }
 
   navigateToDetail4(DocumentSnapshot ds) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => update_notifylevel(
-              ds: ds,
-            )));
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => update_notifylevel(ds: ds,),
+      ),
+    );
   }
 
   navigateToDetail5(DocumentSnapshot ds) {
-    Navigator.push(
+    Navigator.pushReplacement(
         context,
         MaterialPageRoute(
             builder: (context) => update_notifyimage(
@@ -79,7 +79,7 @@ class _update_notify extends State<update_notify> {
   }
 
   navigateToDetail6(DocumentSnapshot ds) {
-    Navigator.push(
+    Navigator.pushReplacement(
         context,
         MaterialPageRoute(
             builder: (context) => update_notifymap(
@@ -146,29 +146,29 @@ class _update_notify extends State<update_notify> {
                     ),
                   ],
                 ),
-                Row(
-                  children: <Widget>[
-                    Icon(
-                      Icons.call,
-                      size: 14,
-                      color: Colors.green,
-                    ),
-                    SizedBox(width: 3),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        '081234975319',
-                        style: TextStyle(fontFamily: 'Kanit',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 13,
-                          color: Colors.blueGrey[300],
-                        ),
-                        maxLines: 1,
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
-                  ],
-                ),
+                // Row(
+                //   children: <Widget>[
+                //     Icon(
+                //       Icons.call,
+                //       size: 14,
+                //       color: Colors.green,
+                //     ),
+                //     SizedBox(width: 3),
+                //     Container(
+                //       alignment: Alignment.centerLeft,
+                //       child: Text(
+                //         '081234975319',
+                //         style: TextStyle(fontFamily: 'Kanit',
+                //           fontWeight: FontWeight.bold,
+                //           fontSize: 13,
+                //           color: Colors.blueGrey[300],
+                //         ),
+                //         maxLines: 1,
+                //         textAlign: TextAlign.left,
+                //       ),
+                //     ),
+                //   ],
+                // ),
                 SizedBox(height: 20),
                 Container(
                   alignment: Alignment.centerLeft,
@@ -270,13 +270,13 @@ class _update_notify extends State<update_notify> {
             ),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.green,
-          child: Icon(
-            Icons.call,
-          ),
-          onPressed: () {},
-        ),
+        // floatingActionButton: FloatingActionButton(
+        //   backgroundColor: Colors.green,
+        //   child: Icon(
+        //     Icons.call,
+        //   ),
+        //   onPressed: () {},
+        // ),
       ),
     );
   }

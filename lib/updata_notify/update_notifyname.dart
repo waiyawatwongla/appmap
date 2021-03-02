@@ -1,6 +1,3 @@
-import 'package:appmap/Case_manager/casemanagerattentive.dart';
-import 'package:appmap/Case_manager/casemanagernotify.dart';
-import 'package:appmap/Login/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 

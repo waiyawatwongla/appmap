@@ -80,38 +80,38 @@ class _Mapshowdatail extends State<Mapshowdatail> {
                         textAlign: TextAlign.left,
                       ),
                     ),
-                    IconButton(
-                      icon: Icon(
-                        Icons.time_to_leave,
-                      ),
-                      onPressed: () {},
-                    ),
+                    // IconButton(
+                    //   icon: Icon(
+                    //     Icons.time_to_leave,
+                    //   ),
+                    //   onPressed: () {},
+                    // ),
                   ],
                 ),
-                Row(
-                  children: <Widget>[
-                    Icon(
-                      Icons.call,
-                      size: 14,
-                      color: Colors.green,
-                    ),
-                    SizedBox(width: 3),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        '081234975319',
-                        style: TextStyle(
-                          fontFamily: 'kanit',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 13,
-                          color: Colors.blueGrey[300],
-                        ),
-                        maxLines: 1,
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
-                  ],
-                ),
+                // Row(
+                //   children: <Widget>[
+                //     Icon(
+                //       Icons.call,
+                //       size: 14,
+                //       color: Colors.green,
+                //     ),
+                //     SizedBox(width: 3),
+                //     Container(
+                //       alignment: Alignment.centerLeft,
+                //       child: Text(
+                //         '081234975319',
+                //         style: TextStyle(
+                //           fontFamily: 'kanit',
+                //           fontWeight: FontWeight.bold,
+                //           fontSize: 13,
+                //           color: Colors.blueGrey[300],
+                //         ),
+                //         maxLines: 1,
+                //         textAlign: TextAlign.left,
+                //       ),
+                //     ),
+                //   ],
+                // ),
                 SizedBox(height: 20),
                 Container(alignment: Alignment.centerLeft, child: textlevel()),
                 SizedBox(height: 40),
@@ -179,13 +179,13 @@ class _Mapshowdatail extends State<Mapshowdatail> {
             ),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.green,
-          child: Icon(
-            Icons.call,
-          ),
-          onPressed: () {},
-        ),
+        // floatingActionButton: FloatingActionButton(
+        //   backgroundColor: Colors.green,
+        //   child: Icon(
+        //     Icons.call,
+        //   ),
+        //   onPressed: () {},
+        // ),
       ),
     );
   }

@@ -356,7 +356,7 @@ class _casaddState extends State<casadd> {
   Widget Textname() {
     return Container(
       width: MediaQuery.of(context).size.width * 1,
-      child: TextField(
+      child: TextField(maxLength: 20,
         onChanged: (String string) {
           name = string.trim();
         },

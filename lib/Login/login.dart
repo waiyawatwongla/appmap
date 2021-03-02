@@ -201,9 +201,9 @@ class _LoginPageState extends State<LoginPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Image.asset(
-          'images/logo2.png',
-          width: 120,
-          height: 100,
+          'images/logo4.png',
+          width: 130,
+          height: 130,
         ),
         Column(
           children: <Widget>[

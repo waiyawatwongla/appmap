@@ -55,12 +55,6 @@ class _casemanagernotify extends State<casemanagernotify> {
             ),
           ),
           actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.home),
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LoginPage()));
-                })
           ],
         ),
         body: Container(
@@ -81,31 +75,6 @@ class _casemanagernotify extends State<casemanagernotify> {
                   },
                 ),
               ),
-              // Container(
-              //   height: 50,
-              //   color: Colors.white.withOpacity(0.7),
-              //   child: Row(
-              //     crossAxisAlignment: CrossAxisAlignment.start,
-              //     mainAxisAlignment: MainAxisAlignment.start,
-              //     children: <Widget>[
-              //       SizedBox(
-              //         width: 10,
-              //       ),
-              //       _widget("แม่สอด"),
-              //       SizedBox(
-              //         width: 10,
-              //       ),
-              //       _widget("ท่าสายลวด"),
-              //       SizedBox(
-              //         width: 10,
-              //       ),
-              //       _widget("มหาวัน"),
-              //       SizedBox(
-              //         width: 10,
-              //       ),
-              //     ],
-              //   ),
-              // ),
               Container(
                 height: 30,
                 width: double.infinity,
@@ -143,11 +112,11 @@ class _casemanagernotify extends State<casemanagernotify> {
                             childAspectRatio:
                             0.800, //space largo de cada card
                           ),
+                          shrinkWrap: true,
                           itemCount: snapshot.data.documents.length,
                           padding: EdgeInsets.all(2.0),
                           itemBuilder: (_, int index) {
-                            final DocumentSnapshot doc =
-                            snapshot.data.documents[index];
+                            DocumentSnapshot doc = snapshot.data.documents[snapshot.data.documents.length - 1 -index];
                             testdata() {
                               if (doc.data['level'] ==
                                   'ระดับความรุนแรง ปลอดภัย') {

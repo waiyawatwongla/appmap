@@ -93,9 +93,10 @@ class _caseattentiveState extends State<caseattentive> {
                         : Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ListView.builder(
+                              shrinkWrap: true,
                               itemCount: snapshot.data.documents.length,
                               itemBuilder: (context, index) {
-                                DocumentSnapshot data = snapshot.data.documents[index];
+                                DocumentSnapshot data = snapshot.data.documents[snapshot.data.documents.length - 1 -index];
                                 testdata() {
                                   if (data['level'] ==
                                       'ระดับความรุนแรง ปลอดภัย') {

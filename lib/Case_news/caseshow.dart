@@ -32,6 +32,7 @@ class _ItemPageState extends State<ItemPage> {
   String caseimage = "Please wait.....";
   String caselevel = "Please wait.....";
   Geoflutterfire geo;
+
   Set<Marker> mymarkers() {
     return <Marker>[localmarker()].toSet();
   }
@@ -50,10 +51,14 @@ class _ItemPageState extends State<ItemPage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(   backgroundColor: Colors.green[900],
+        appBar: AppBar(
+          backgroundColor: Colors.green[900],
           title: Text(
             widget.casename,
-            style: TextStyle(fontSize: 18,    fontFamily: 'Kanit',),
+            style: TextStyle(
+              fontSize: 18,
+              fontFamily: 'Kanit',
+            ),
           ),
           leading: IconButton(
             icon: Icon(
@@ -67,7 +72,8 @@ class _ItemPageState extends State<ItemPage> {
                 Icons.cloud_upload,
               ),
               onPressed: () {
-                adddata();
+                popAlert('แจ้งเตือน',
+                    'คุณต้องการที่จะบันทึกเคสไปยังเคสที่สนใจหรือไม่?');
               },
             ),
           ],
@@ -90,7 +96,8 @@ class _ItemPageState extends State<ItemPage> {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         widget.casename,
-                        style: TextStyle(    fontFamily: 'Kanit',
+                        style: TextStyle(
+                          fontFamily: 'Kanit',
                           fontWeight: FontWeight.w700,
                           fontSize: 24,
                         ),
@@ -133,7 +140,8 @@ class _ItemPageState extends State<ItemPage> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "รายละเอียด",
-                    style: TextStyle(    fontFamily: 'Kanit',
+                    style: TextStyle(
+                      fontFamily: 'Kanit',
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
@@ -146,7 +154,8 @@ class _ItemPageState extends State<ItemPage> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     widget.casedetail,
-                    style: TextStyle(    fontFamily: 'Kanit',
+                    style: TextStyle(
+                      fontFamily: 'Kanit',
                       fontWeight: FontWeight.normal,
                       fontSize: 15.0,
                     ),
@@ -159,14 +168,18 @@ class _ItemPageState extends State<ItemPage> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "แผนที่ตั้ง",
-                    style: TextStyle(    fontFamily: 'Kanit',
+                    style: TextStyle(
+                      fontFamily: 'Kanit',
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
                     maxLines: 1,
                     textAlign: TextAlign.left,
                   ),
-                ),SizedBox(height: 20,),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
                 Container(
                   height: 200,
                   width: 320,
@@ -188,13 +201,13 @@ class _ItemPageState extends State<ItemPage> {
             ),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.green,
-          child: Icon(
-            Icons.call,
-          ),
-          onPressed: () {},
-        ),
+        // floatingActionButton: FloatingActionButton(
+        //   backgroundColor: Colors.green,
+        //   child: Icon(
+        //     Icons.call,
+        //   ),
+        //   onPressed: () {},
+        // ),
       ),
     );
   }
@@ -206,7 +219,8 @@ class _ItemPageState extends State<ItemPage> {
           Text(
             '${widget.caselevel}',
             style: TextStyle(
-              color: Colors.green,    fontFamily: 'Kanit',
+              color: Colors.green,
+              fontFamily: 'Kanit',
               fontWeight: FontWeight.bold,
               fontSize: 17,
             ),
@@ -225,7 +239,8 @@ class _ItemPageState extends State<ItemPage> {
           Text(
             '${widget.caselevel}',
             style: TextStyle(
-              color: Colors.yellow,    fontFamily: 'Kanit',
+              color: Colors.yellow,
+              fontFamily: 'Kanit',
               fontWeight: FontWeight.bold,
               fontSize: 17,
             ),
@@ -244,7 +259,8 @@ class _ItemPageState extends State<ItemPage> {
           Text(
             '${widget.caselevel}',
             style: TextStyle(
-              color: Colors.orange,    fontFamily: 'Kanit',
+              color: Colors.orange,
+              fontFamily: 'Kanit',
               fontWeight: FontWeight.bold,
               fontSize: 17,
             ),
@@ -263,7 +279,8 @@ class _ItemPageState extends State<ItemPage> {
           Text(
             '${widget.caselevel}',
             style: TextStyle(
-              color: Colors.red,    fontFamily: 'Kanit',
+              color: Colors.red,
+              fontFamily: 'Kanit',
               fontWeight: FontWeight.bold,
               fontSize: 17,
             ),
@@ -326,18 +343,72 @@ class _ItemPageState extends State<ItemPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text(title,style: TextStyle(    fontFamily: 'Kanit',)),
-            content: Text(message,style: TextStyle(    fontFamily: 'Kanit',)),
+            title: Text(title,
+                style: TextStyle(
+                  fontFamily: 'Kanit',
+                )),
+            content: Text(message,
+                style: TextStyle(
+                  fontFamily: 'Kanit',
+                )),
+            // actions: <Widget>[
+            //   FlatButton(
+            //       onPressed: () {
+            //         Navigator.pop(context);
+            //       },
+            //       child: Text(
+            //         'ok',
+            //         style: TextStyle(
+            //           fontFamily: 'Kanit',
+            //         ),
+            //       ))
+            // ],
+          );
+        });
+  }
+
+  Future<void> popAlert(String title, String message) async {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(title,
+                style: TextStyle(
+                  fontFamily: 'Kanit',
+                )),
+            content: Text(message,
+                style: TextStyle(
+                  fontFamily: 'Kanit',
+                )),
             actions: <Widget>[
               FlatButton(
-                  onPressed: () {
-                   Navigator.pop(context);
-                  },
-                  child: Text('ok',style: TextStyle(    fontFamily: 'Kanit',),))
+                onPressed: () {
+                 adddata();
+                 Navigator.pop(context);
+                },
+                child: Text(
+                  'ยืนยัน',
+                  style: TextStyle(
+                    fontFamily: 'Kanit',
+                  ),
+                ),
+              ),
+              FlatButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  'ยกเลิก',
+                  style: TextStyle(
+                    fontFamily: 'Kanit',
+                  ),
+                ),
+              ),
             ],
           );
         });
   }
+
 
   adddata() async {
     List<String> indexlist = [];
@@ -349,7 +420,8 @@ class _ItemPageState extends State<ItemPage> {
     print(indexlist);
 
     Firestore firestore = Firestore.instance;
-    GeoFirePoint geoFirePoint = geo.point(latitude: widget.casemap.latitude, longitude: widget.casemap.longitude);
+    GeoFirePoint geoFirePoint = geo.point(
+        latitude: widget.casemap.latitude, longitude: widget.casemap.longitude);
     firestore.collection('Caseinterested').add({
       'name': widget.casename,
       'detail': widget.casedetail,
@@ -357,9 +429,9 @@ class _ItemPageState extends State<ItemPage> {
       'level': widget.caselevel,
       'district': widget.casearea,
       'position': geoFirePoint.data,
-      'searchindex' : indexlist,
+      'searchindex': indexlist,
     }).then((_) {
-      showAlertSucusses('การอัปโหลด', 'สำเร็จ');
+      // showAlertSucusses('การอัปโหลด', 'สำเร็จ');
     });
   }
 
@@ -379,6 +451,4 @@ class _ItemPageState extends State<ItemPage> {
         .document()
         .setData(({'name': name, 'searchindex': indexlist}));
   }
-
-
 }

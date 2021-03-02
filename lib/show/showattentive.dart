@@ -62,7 +62,7 @@ class _shoowattentive extends State<shoowattentive> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(title: Text('เคสที่สนใจ')),
+        appBar: AppBar(title: Text('เคสที่สนใจ',style: TextStyle(fontFamily: 'Kanit'),)),
         body: Card(
           child: Column(
             children: <Widget>[
@@ -70,24 +70,16 @@ class _shoowattentive extends State<shoowattentive> {
                 height: 50,
                 color: Colors.white.withOpacity(0.7),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    SizedBox(
-                      width: 10,
-                    ),
+                    Text('หมวดหมู่ :',style: TextStyle(fontSize: 15,fontFamily: 'Kanit',color: Colors.black45),),
                     _widget("แม่สอด"),
-                    SizedBox(
-                      width: 10,
-                    ),
+
                     _widget("ท่าสายลวด"),
-                    SizedBox(
-                      width: 10,
-                    ),
+
                     _widget("มหาวัน"),
-                    SizedBox(
-                      width: 10,
-                    ),
+
                   ],
                 ),
               ),
@@ -134,10 +126,10 @@ class _shoowattentive extends State<shoowattentive> {
                         : Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ListView.builder(
+                              shrinkWrap: true,
                               itemCount: snapshot.data.documents.length,
                               itemBuilder: (context, index) {
-                                DocumentSnapshot data =
-                                    snapshot.data.documents[index];
+                                DocumentSnapshot data = snapshot.data.documents[snapshot.data.documents.length - 1 -index];
                                 testdata() {
                                   if (data['level'] ==
                                       'ระดับความรุนแรง ปลอดภัย') {

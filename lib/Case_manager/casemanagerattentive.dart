@@ -115,12 +115,12 @@ class _casemanagerattentiveState extends State<casemanagerattentive> {
             ),
           ),
           actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.home),
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LoginPage()));
-                })
+            // IconButton(
+            //     icon: Icon(Icons.home),
+            //     onPressed: () {
+            //       Navigator.push(context,
+            //           MaterialPageRoute(builder: (context) => LoginPage()));
+            //     })
           ],
         ),
         body: Container(
@@ -130,10 +130,11 @@ class _casemanagerattentiveState extends State<casemanagerattentive> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(17.0),
                     side: BorderSide(color: Colors.green[900])),
-                child:
-                TextField(
-                  decoration: InputDecoration( border: InputBorder.none,
-                      prefixIcon: Icon(Icons.search), hintText: 'ค้นหาชื่อเคสที่สนใจ'),
+                child: TextField(
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      prefixIcon: Icon(Icons.search),
+                      hintText: 'ค้นหาชื่อเคสที่สนใจ'),
                   onChanged: (val) {
                     setState(() {
                       name = val;
@@ -183,7 +184,7 @@ class _casemanagerattentiveState extends State<casemanagerattentive> {
               ),
               Expanded(
                 child: StreamBuilder<QuerySnapshot>(
-                    stream: (name != "" && name != null )
+                    stream: (name != "" && name != null)
                         ? Firestore.instance
                             .collection('Caseinterested')
                             .where('name', isEqualTo: name)
@@ -193,7 +194,8 @@ class _casemanagerattentiveState extends State<casemanagerattentive> {
                             // .where('name', isGreaterThanOrEqualTo: names)
                             .snapshots(),
                     builder: (context, snapshot) {
-                      return (snapshot.connectionState == ConnectionState.waiting)
+                      return (snapshot.connectionState ==
+                              ConnectionState.waiting)
                           ? Center(child: CircularProgressIndicator())
                           : GridView.builder(
                               gridDelegate:
@@ -203,11 +205,13 @@ class _casemanagerattentiveState extends State<casemanagerattentive> {
                                 childAspectRatio:
                                     0.800, //space largo de cada card
                               ),
+                              shrinkWrap: true,
                               itemCount: snapshot.data.documents.length,
                               padding: EdgeInsets.all(2.0),
                               itemBuilder: (_, int index) {
-                                final DocumentSnapshot doc =
-                                    snapshot.data.documents[index];
+                                DocumentSnapshot doc = snapshot.data.documents[
+                                    snapshot.data.documents.length - 1 - index];
+
                                 testdata() {
                                   if (doc.data['level'] ==
                                       'ระดับความรุนแรง ปลอดภัย') {
@@ -290,6 +294,7 @@ class _casemanagerattentiveState extends State<casemanagerattentive> {
                                     );
                                   }
                                 }
+
                                 return Container(
                                   child: Card(
                                     child: Column(

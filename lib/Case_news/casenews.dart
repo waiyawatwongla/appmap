@@ -2,6 +2,7 @@
 import 'package:appmap/Splash_Screen/CustomShapeClipper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'caseshow.dart';
 
@@ -68,65 +69,50 @@ class _casenewsState extends State<casenews> {
     final mediaQuery = MediaQuery.of(context);
     return SafeArea(
       child: Scaffold(
-        // appBar: AppBar(
-        //   automaticallyImplyLeading: false,
-        //   backgroundColor: Colors.green[900],
-        //   title: Text(
-        //     "ข่าวใหม่",
-        //     style: TextStyle(color: Colors.white, fontFamily: 'Kanit'),
-        //   ),
-        //   actions: <Widget>[
-        //     IconButton(
-        //         icon: Icon(Icons.home),
-        //         color: Colors.white,
-        //         onPressed: () {
-        //           // Navigator.push(context,
-        //           //     MaterialPageRoute(builder: (context) => MapsPage()));
-        //         })
-        //   ],
-        // ),
         body: Container(
-          // decoration: BoxDecoration(
-          //   gradient: LinearGradient(
-          //       begin: Alignment.topRight,
-          //       end: Alignment.bottomLeft,
-          //       colors: [Colors.teal[900], Colors.green[800]]),
-          // ),
           child: Stack(
             children: <Widget>[
               clipShape(),
-              ListView(
-                padding: EdgeInsets.all(15),
+              Column(
                 children: <Widget>[
-                 Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Text('หมวดหมู่ :',style: TextStyle(fontSize: 15,fontFamily: 'Kanit',color: Colors.white),),
-                        _widget("แม่สอด"),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Text('หมวดหมู่ :',style: TextStyle(fontSize: 15,fontFamily: 'Kanit',color: Colors.white),),
+                      _widget("แม่สอด"),
 
-                        _widget("ท่าสายลวด"),
+                      _widget("ท่าสายลวด"),
 
-                        _widget("มหาวัน"),
+                      _widget("มหาวัน"),
 
-                      ],
-                    ),
-                  Padding(
-                      padding: const EdgeInsets.only(left: 15, top: 3),
-                      child: Text(
-                        "ค้นหา : $name",
-                        style: TextStyle(fontSize: 15,fontFamily: 'Kanit',color: Colors.white),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                     Padding(
+                       padding: const EdgeInsets.all(8.0),
+                       child: Text(
+                            "ค้นหา : $name",
+                            style: TextStyle(fontSize: 15,fontFamily: 'Kanit',color: Colors.white),
+                          ),
+                     ),
+                    ],
+                  ),
+                  SizedBox(height: 5,),
+                  Row(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "เคสที่แจ้งทั้งหมด",
+                          style: TextStyle(fontSize: 22, fontFamily: 'Kanit',color: Colors.white),
+                        ),
                       ),
-                    ),
-                  Text(
-                    'เคสการแจ้งทั้งหมด',
-                    style: TextStyle(
-                        fontFamily: 'Kanit', color: Colors.white, fontSize: 20),
+                    ],
                   ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  StreamBuilder<QuerySnapshot>(
+                  Expanded(
+                    child: StreamBuilder<QuerySnapshot>(
                       stream: (name != "" && name != null)
                           ? Firestore.instance
                           .collection('CaseNotify')
@@ -136,170 +122,166 @@ class _casenewsState extends State<casenews> {
                           .collection("CaseNotify")
                           .snapshots(),
                       builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return Column(
-                            children: snapshot.data.documents.map((doc) {
-                              testdata() {
-                                if (doc.data['level'] ==
-                                    'ระดับความรุนแรง ปลอดภัย') {
-                                  return Row(
-                                    children: <Widget>[
-                                      Text(
-                                        '${doc.data['level']}',
-                                        style: TextStyle(
-                                          color: Colors.green,
-                                          fontFamily: 'Kanit',
-                                          fontSize: 12,
-                                        ),
-                                        maxLines: 1,
-                                        textAlign: TextAlign.left,
-                                      ),
-                                      Icon(
-                                        (Icons.mood),
-                                        color: Colors.green,
-                                      )
-                                    ],
-                                  );
-                                } else if (doc.data['level'] ==
-                                    'ระดับความรุนแรง น้อย') {
-                                  return Row(
-                                    children: <Widget>[
-                                      Text(
-                                        '${doc.data['level']}',
-                                        style: TextStyle(
-                                          color: Colors.yellow,
-                                          fontFamily: 'Kanit',
-                                          fontSize: 12,
-                                        ),
-                                        maxLines: 1,
-                                        textAlign: TextAlign.left,
-                                      ),
-                                      Icon(
-                                        (Icons.sentiment_neutral),
-                                        color: Colors.yellow,
-                                      )
-                                    ],
-                                  );
-                                } else if (doc.data['level'] ==
-                                    'ระดับความรุนแรง มาก') {
-                                  return Row(
-                                    children: <Widget>[
-                                      Text(
-                                        '${doc.data['level']}',
-                                        style: TextStyle(
-                                            color: Colors.orange,
+                        return (snapshot.connectionState == ConnectionState.waiting)
+                            ? Center(child: CircularProgressIndicator())
+                            : Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Align(alignment: Alignment.topCenter,
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: snapshot.data.documents.length,
+                              itemBuilder: (context, index) {
+                                DocumentSnapshot data = snapshot.data.documents[snapshot.data.documents.length - 1 -index];
+                                testdata() {
+                                  if (data['level'] ==
+                                      'ระดับความรุนแรง ปลอดภัย') {
+                                    return Row(
+                                      children: <Widget>[
+                                        Text(
+                                          '${data['level']}',
+                                          style: TextStyle(
+                                            color: Colors.green,
                                             fontFamily: 'Kanit',
-                                            fontSize: 12),
-                                        maxLines: 1,
-                                        textAlign: TextAlign.left,
-                                      ),
-                                      Icon(
-                                        (Icons.sentiment_dissatisfied),
-                                        color: Colors.orange,
-                                      )
-                                    ],
-                                  );
-                                } else if (doc.data['level'] ==
-                                    'ระดับความรุนแรง มากที่สุด') {
-                                  return Row(
-                                    children: <Widget>[
-                                      Text(
-                                        '${doc.data['level']}',
-                                        style: TextStyle(
-                                          color: Colors.red,
-                                          fontFamily: 'Kanit',
-                                          fontSize: 12,
+                                            fontSize: 12,
+                                          ),
+                                          maxLines: 1,
+                                          textAlign: TextAlign.left,
                                         ),
-                                        maxLines: 1,
-                                        textAlign: TextAlign.left,
-                                      ),
-                                      Icon(
-                                        (Icons.mood_bad),
-                                        color: Colors.red,
-                                      )
-                                    ],
-                                  );
+                                        Icon(
+                                          (Icons.mood),
+                                          color: Colors.green,
+                                        )
+                                      ],
+                                    );
+                                  } else if (data['level'] ==
+                                      'ระดับความรุนแรง น้อย') {
+                                    return Row(
+                                      children: <Widget>[
+                                        Text(
+                                          '${data['level']}',
+                                          style: TextStyle(
+                                            color: Colors.yellow,
+                                            fontFamily: 'Kanit',
+                                            fontSize: 12,
+                                          ),
+                                          maxLines: 1,
+                                          textAlign: TextAlign.left,
+                                        ),
+                                        Icon(
+                                          (Icons.sentiment_neutral),
+                                          color: Colors.yellow,
+                                        )
+                                      ],
+                                    );
+                                  } else if (data['level'] ==
+                                      'ระดับความรุนแรง มาก') {
+                                    return Row(
+                                      children: <Widget>[
+                                        Text(
+                                          '${data['level']}',
+                                          style: TextStyle(
+                                              color: Colors.orange,
+                                              fontFamily: 'Kanit',
+                                              fontSize: 12),
+                                          maxLines: 1,
+                                          textAlign: TextAlign.left,
+                                        ),
+                                        Icon(
+                                          (Icons.sentiment_dissatisfied),
+                                          color: Colors.orange,
+                                        )
+                                      ],
+                                    );
+                                  } else if (data['level'] ==
+                                      'ระดับความรุนแรง มากที่สุด') {
+                                    return Row(
+                                      children: <Widget>[
+                                        Text(
+                                          '${data['level']}',
+                                          style: TextStyle(
+                                            color: Colors.red,
+                                            fontFamily: 'Kanit',
+                                            fontSize: 12,
+                                          ),
+                                          maxLines: 1,
+                                          textAlign: TextAlign.left,
+                                        ),
+                                        Icon(
+                                          (Icons.mood_bad),
+                                          color: Colors.red,
+                                        )
+                                      ],
+                                    );
+                                  }
                                 }
-                              }
 
-                              return InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ItemPage(
-                                        casename: doc.data["name"],
-                                        casedetail: doc.data["detail"],
-                                        caseimage: doc.data["urlimage"],
-                                        caselevel: doc.data["level"],
-                                        casearea: doc.data['district'],
-                                        casemap: doc.data["position"]['geopoint'],
+                                return InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ItemPage(
+                                          casename: data["name"],
+                                          casedetail: data["detail"],
+                                          caseimage: data["urlimage"],
+                                          caselevel: data["level"],
+                                          casemap: data["position"]["geopoint"],
+                                        ),
                                       ),
+                                    );
+                                  },
+                                  child: Card(shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5.0),
+                                      side: BorderSide(color: Colors.green[900])),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                            BorderRadius.circular(5.0),
+                                            child: data['urlimage'] == null
+                                                ? Image.asset(
+                                              'images/photo.png',
+                                              width: 75,
+                                              height: 75,
+                                              fit: BoxFit.cover,
+                                            )
+                                                : Image.network(
+                                              data['urlimage'],
+                                              width: 75,
+                                              height: 75,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 25,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Text(
+                                              data['name'],
+                                              style: TextStyle(
+                                                  fontSize: 20,fontFamily: 'Kanit'
+                                              ),
+                                            ),
+                                            testdata()
+                                          ],
+                                        ),
+                                      ],
                                     ),
-                                  );
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 5.0, vertical: 0.0),
-                                  child: Card(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8.0),
-                                        side: BorderSide(color: Colors.green[900])),
-                                    color: Colors.white,
-                                      child: Row(
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                              child: doc.data['urlimage'] == null
-                                                  ? Image.asset(
-                                                      'images/photo.png',
-                                                      height: 70.0,
-                                                      width: 70.0,
-                                                      fit: BoxFit.cover,
-                                                    )
-                                                  : Image.network(
-                                                      '${doc.data['urlimage']}',
-                                                      height: 70.0,
-                                                      width: 70.0,
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 20,
-                                          ),
-                                          Container(
-                                            width: 180,
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Text(
-                                                  '${doc.data['name']}',
-                                                  style: TextStyle(
-                                                    fontFamily: 'Kanit',
-                                                    fontSize: 15.0,
-                                                  ),
-                                                ),
-                                                testdata(),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-
                                   ),
-                                ),
-                              );
-                            }).toList(),
-                          );
-                        } else {
-                          return SizedBox();
-                        }
-                      }),
+                                );
+                              },
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                 ],
               ),
             ],

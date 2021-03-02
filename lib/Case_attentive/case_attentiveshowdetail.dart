@@ -175,13 +175,13 @@ class _caseattentiveshow extends State<caseattentiveshow> {
             ),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.green,
-          child: Icon(
-            Icons.call,
-          ),
-          onPressed: () {},
-        ),
+        // floatingActionButton: FloatingActionButton(
+        //   backgroundColor: Colors.green,
+        //   child: Icon(
+        //     Icons.call,
+        //   ),
+        //   onPressed: () {},
+        // ),
       ),
     );
   }
